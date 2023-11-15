@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-<h1>Winkelmandje</h1>
+<h1>Winkelmandje dikke lul</h1>
 
 
 <?php
