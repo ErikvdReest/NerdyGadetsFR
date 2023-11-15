@@ -19,7 +19,7 @@ include "favorietenfuncties.php";
     </style>
 </head>
 <body>
-<h1>Favorieten dikke lullen</h1>
+<h1>Favorieten</h1>
 
 <?php
 $favorites = getFavorite();
