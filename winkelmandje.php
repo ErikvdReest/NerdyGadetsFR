@@ -104,7 +104,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
         //Toont de prijs
         print("<p>Prijs: €" . $afgerondePrijs . "</p>");
         //Toont de voorraad
-        if($productDetails['QuantityOnHand'] > 1000){
+        if($productDetails['QuantityOnHand'] > 1000 ){
             print("<p>Voldoende Voorraad</p>");
         } else {
             print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
