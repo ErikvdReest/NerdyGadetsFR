@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title >Winkelwagen Dikke lul</title>
+    <title >Winkelwagen</title>
     <style>
         h1 {
             text-align: center;
