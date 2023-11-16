@@ -18,7 +18,7 @@ function saveFavorit($Favorit)
 
 function addProductToFavorit($stockItemID)
 {
-    $Favorit = getCart();                          // eerst de huidige cart ophalen
+    $Favorit = getFavorite();                          // eerst de huidige cart ophalen
 
     if (array_key_exists($stockItemID, $Favorit)) {  //controleren of $stockItemID(=key!) al in array staat
         $Favorit[$stockItemID] += 1;                   //zo ja:  aantal met 1 verhogen
@@ -26,8 +26,10 @@ function addProductToFavorit($stockItemID)
         $Favorit[$stockItemID] = 1;                    //zo nee: key toevoegen en aantal op 1 zetten.
     }
 
-    saveCart($Favorit);                            // werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte cart
+    saveFavorite($Favorit);                            // werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte cart
 }
 function updateFavorit($favorit) {
     $_SESSION['cart'] = $favorit;
 }
+
+
