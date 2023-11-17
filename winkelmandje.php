@@ -94,35 +94,50 @@ foreach ($cart as $Artikelnummer => $aantal) {
 
     //Met gebruik van artikelnummer toont $productdetails de informatie over producten//
     $productDetails = getStockItem($Artikelnummer, $connection);
+    $StockItemImage = getStockItemImage($Artikelnummer, $connection);
 
-    if ($productDetails) {
-        print("<div class='product'>");
-        print("<div class='product-info'>");
-        print("<h3>" . $productDetails['StockItemName'] . "</h3>");
-        //Rond de prijs op twee decimalen af
-        $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
-        //Toont de prijs
-        print("<p>Prijs: €" . $afgerondePrijs . "</p>");
-        //Toont de voorraad
-        print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
+    if (isset($StockItemImage)) {
+        // één plaatje laten zien
+        if (count($StockItemImage) == 1) {
+            ?>
+            <div id="ImageFrameCart"
+                 style="background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 155px;  border: 5px solid #FFFFFF background-repeat: no-repeat; background-position: center;">
+            </div>
 
-        print("</div>");
-        print("<div class='aantal'>");
-        print("<form method='post' style='display: inline;'>");
-        print("Aantal: ");
-        print($aantal);
-        print("<div class='aanpassen'>");
-        print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
-        print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
-        print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
-        print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
-        print("</div>");
-        print("</form>");
-        print("</div>");
-        print("</div>");
+            <?php
+
+            if ($productDetails) {
+                print("<div class='product'>");
+                print("<div class='product-info'>");
+                print("<h3>" . $productDetails['StockItemName'] . "</h3>");
+                // Rond de prijs op twee decimalen af
+                $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+                // Toont de prijs
+                print("<p>Prijs: €" . $afgerondePrijs . "</p>");
+                // Toont de voorraad
+                print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
+
+                print("</div>");
+                print("<div class='aantal'>");
+                print("<form method='post' style='display: inline;'>");
+                print("Aantal: ");
+                print($aantal);
+                print("<div class='aanpassen'>");
+                print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
+                print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
+                print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
+                print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
+                print("</div>");
+                print("</form>");
+                print("</div>");
+                print("</div>");
+            }
+            $totaalPrijs += ($aantal * $afgerondePrijs);
+            $aantalProducten += ($aantal);
+        }
     }
-    $totaalPrijs += ($aantal * $afgerondePrijs);
-    $aantalProducten += ($aantal);
+
+
 }
 //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
 if (isset($_POST["verwijderen"])) {
@@ -166,7 +181,7 @@ if (isset($_POST["favorieten"])) {
 
 ?>
 <div class="prijs">
-<h6>Totaalprijs: <?php print($totaalPrijs) ?> </h6>
+<h6>Totaalprijs: € <?php print($totaalPrijs) ?> </h6>
 <h6>Artikelen: <?php print($aantalProducten) ?></h6>
 </div>
 
