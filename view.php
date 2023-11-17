@@ -91,16 +91,16 @@ if (isset($_GET["id"])) {
                 <p class="StockItemPriceText" style="margin-top: 100px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                 <h6> Inclusief BTW </h6>
 
-                <form method="post" action="">
-                    <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">
-                        <i class="fas fa-heart"> Favorieten</i>
-                    </button>
-                </form>
+<!--                <form method="post" action="">-->
+<!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
+<!--                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">-->
+<!--                        <i class="fas fa-heart"> Favorieten</i>-->
+<!--                    </button>-->
+<!--                </form>-->
 
                 <form method="post" action="">
                     <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submit" id="Toevoegen" style="margin-top: 0px;">
+                    <button type="submit" name="submit" id="Toevoegen" style="margin-top: 100px;">
                         <i class="fas fa-shopping-cart"> In Winkelmandje</i>
                     </button>
                 </form>

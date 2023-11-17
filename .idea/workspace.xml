@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     <list default="true" id="69bac85f-a31a-4b04-b1e4-7f2f1a398280" name="Changes" comment="" />
 =======
@@ -11,6 +12,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
 >>>>>>> Stashed changes
+=======
+    <list default="true" id="69bac85f-a31a-4b04-b1e4-7f2f1a398280" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> 865c6ae761178cc08eba9f3db311542a95c9b7a9
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +25,7 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
   <component name="Git.Settings">
@@ -31,6 +38,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
 >>>>>>> Stashed changes
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+>>>>>>> 865c6ae761178cc08eba9f3db311542a95c9b7a9
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -41,6 +53,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -59,8 +72,24 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "marthijn's-speelzaal",
+    "last_opened_file_path": "C:/xampp/htdocs/NerdyGadgets/NerdyGadetsFR",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+>>>>>>> 865c6ae761178cc08eba9f3db311542a95c9b7a9
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -78,6 +107,7 @@
       <workItem from="1700044137380" duration="301000" />
       <workItem from="1700055303878" duration="496000" />
       <workItem from="1700056248927" duration="259000" />
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
       <workItem from="1700058477016" duration="448000" />
@@ -87,6 +117,9 @@
       <workItem from="1700216146632" duration="47000" />
       <workItem from="1700220594697" duration="1098000" />
 >>>>>>> Stashed changes
+=======
+      <workItem from="1700058477016" duration="1011000" />
+>>>>>>> 865c6ae761178cc08eba9f3db311542a95c9b7a9
     </task>
     <task id="LOCAL-00001" summary="Winkelwagen dikke lul">
       <option name="closed" value="true" />
