@@ -200,9 +200,9 @@ if (isset($amount)) {
 
     function getVoorraadTekst($actueleVoorraad) {
         if ($actueleVoorraad > 1000) {
-            return "Ruime voorraad beschikbaar.";
+            print "Ruime voorraad beschikbaar.";
         } else {
-            return "Voorraad: $actueleVoorraad";
+            print "Voorraad: $actueleVoorraad";
         }
     }
     function berekenVerkoopPrijs($adviesPrijs, $btw) {
