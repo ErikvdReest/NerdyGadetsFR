@@ -164,7 +164,14 @@ ul#ul-class-navigation li {
 #ImageFrame {
     width: 300px;
     height: 300px;
-    background-color: rgb(36, 41, 143);
+    background-color: rgb(35, 35, 47);
+    float: left;
+    margin-right: 10px;
+}
+#ImageFrameCart {
+    width: 155px;
+    height: 155px;
+    background-color: rgb(35, 35, 47);
     float: left;
     margin-right: 10px;
 }
