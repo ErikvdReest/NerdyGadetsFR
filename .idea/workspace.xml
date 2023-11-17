@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="69bac85f-a31a-4b04-b1e4-7f2f1a398280" name="Changes" comment="" />
+=======
+    <list default="true" id="69bac85f-a31a-4b04-b1e4-7f2f1a398280" name="Changes" comment="Winkelwagen dikke lul verwijderen">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +19,18 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+<<<<<<< Updated upstream
+=======
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+>>>>>>> Stashed changes
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -28,7 +46,12 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+<<<<<<< Updated upstream
     &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/nerdy-gadgets&quot;,
+=======
+    &quot;git-widget-placeholder&quot;: &quot;marthijn's-speelzaal&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/NerdyGadgetsFR&quot;,
+>>>>>>> Stashed changes
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -55,10 +78,65 @@
       <workItem from="1700044137380" duration="301000" />
       <workItem from="1700055303878" duration="496000" />
       <workItem from="1700056248927" duration="259000" />
+<<<<<<< Updated upstream
+=======
+      <workItem from="1700058477016" duration="448000" />
+      <workItem from="1700127226526" duration="4843000" />
+      <workItem from="1700134524331" duration="63000" />
+      <workItem from="1700141479734" duration="317000" />
+      <workItem from="1700216146632" duration="47000" />
+      <workItem from="1700220594697" duration="1098000" />
+>>>>>>> Stashed changes
     </task>
+    <task id="LOCAL-00001" summary="Winkelwagen dikke lul">
+      <option name="closed" value="true" />
+      <created>1700073047230</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700073047230</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Winkelwagen dikke lul">
+      <option name="closed" value="true" />
+      <created>1700073075002</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700073075002</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Winkelwagen dikke lul verwijderen">
+      <option name="closed" value="true" />
+      <created>1700073101387</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700073101387</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Winkelwagen dikke lul verwijderen">
+      <option name="closed" value="true" />
+      <created>1700073123453</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700073123453</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Winkelwagen dikke lul verwijderen">
+      <option name="closed" value="true" />
+      <created>1700220631528</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700220631528</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Winkelwagen dikke lul" />
+    <MESSAGE value="Winkelwagen dikke lul verwijderen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Winkelwagen dikke lul verwijderen" />
   </component>
 </project>
