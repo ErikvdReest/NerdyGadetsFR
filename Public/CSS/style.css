@@ -486,6 +486,7 @@ ul#ul-class-price li {
     color: #fff;
 }
 .prijs .box{
+    margin-top: 40px;
     width: 300px;
     height: 300px;
     display: -webkit-box;
@@ -499,6 +500,7 @@ ul#ul-class-price li {
 }
 
 .prijs h6 {
+    margin-top: 40px;
     position:fixed;
     font-size: large;
     top:48%;
@@ -507,6 +509,7 @@ ul#ul-class-price li {
     color: #1b1e21;
 }
 .prijs h7{
+    margin-top: 40px;
     position:fixed;
     font-size: large;
     top:53%;
@@ -516,6 +519,7 @@ ul#ul-class-price li {
 
 }
 .prijs h8{
+    margin-top: 40px;
     position:fixed;
     top:35%;
     right:14%;
@@ -525,6 +529,7 @@ ul#ul-class-price li {
     font-size:xx-large;
 }
 .prijs h9{
+    margin-top: 40px;
     font-weight: bold;
     position:fixed;
     font-size: large;
@@ -536,6 +541,7 @@ ul#ul-class-price li {
 }
 
 .prijs h10{
+    margin-top: 40px;
     position:fixed;
     font-size: large;
     top:53%;
@@ -545,6 +551,7 @@ ul#ul-class-price li {
 
 }
 .prijs #AfrekenenKnop{
+    margin-top: 40px;
     position:fixed;
     font-size: large;
     top:65%;
@@ -556,6 +563,7 @@ ul#ul-class-price li {
 }
 
 hr{
+    margin-top: 40px;
     position:fixed;
     top:410px;
     right:300px;
