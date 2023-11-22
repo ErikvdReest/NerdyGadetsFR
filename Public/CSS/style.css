@@ -492,8 +492,8 @@ ul#ul-class-price li {
     box-sizing: border-box;
     background: #ffffff;
     position:fixed;
-    top:300px;
-    right:290px;
+    top:35%;
+    right: 10%;
     z-index: 900;
     border-radius: 25px;
 }
@@ -501,24 +501,24 @@ ul#ul-class-price li {
 .prijs h6 {
     position:fixed;
     font-size: large;
-    top:400px;
-    right:495px;
+    top:48%;
+    right:22%;
     z-index: 950;
     color: #1b1e21;
 }
 .prijs h7{
     position:fixed;
     font-size: large;
-    top:450px;
-    right:500px;
+    top:53%;
+    right:22.5%;
     z-index: 950;
     color: #1b1e21;
 
 }
 .prijs h8{
     position:fixed;
-    top:300px;
-    right:360px;
+    top:35%;
+    right:14%;
     z-index: 950;
     color: #1b1e21;
     font-weight: bold;
@@ -528,8 +528,8 @@ ul#ul-class-price li {
     font-weight: bold;
     position:fixed;
     font-size: large;
-    top:400px;
-    right:300px;
+    top:48%;
+    right:12%;
     z-index: 950;
     color: #1b1e21;
 
@@ -538,8 +538,8 @@ ul#ul-class-price li {
 .prijs h10{
     position:fixed;
     font-size: large;
-    top:450px;
-    right:320px;
+    top:53%;
+    right:12%;
     z-index: 950;
     color: #1b1e21;
 
@@ -547,8 +547,8 @@ ul#ul-class-price li {
 .prijs #AfrekenenKnop{
     position:fixed;
     font-size: large;
-    top:530px;
-    right:405px;
+    top:65%;
+    right:16%;
     z-index: 950;
     color: white;
     background: black;
