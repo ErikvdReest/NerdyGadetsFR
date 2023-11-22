@@ -180,18 +180,19 @@ if (isset($_POST["favorieten"])) {
 
 
 ?>
+
 <div class="prijs">
     <div class="box">
-
         <h6>Subtotaal:</h6>
         <h9><?php print("€".$totaalPrijs) ?></h9>
         <hr>
         <h7>Artikelen:</h7>
         <h10><?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
-        <button type="submit" id="AfrekenenKnop">Betalen</button>
-
-        </div>
+        <form action="afrekenen.php" method="post">
+            <button type="submit" id="AfrekenenKnop">Betalen</button>
+        </form>
+    </div>
 </div>
 
 </body>
