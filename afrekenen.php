@@ -13,33 +13,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Refresh:0");
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <title>Betalen</title>
     <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 10px;
+        }
         body {
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            flex-direction: row;
+            justify-content: space-around;
         }
-
-        .container {
+        .titel {
             text-align: center;
             border: 1px solid #FFFFFF;
             padding: 10px;
-            width: 50%;
+            width: 100%;
+            border-radius: 20px;
         }
 
-        .WinkelmandjeTerug {
-            text-align: left;
+        .productenWinkelmandje {
+            border: 1px solid #FFFFFF;
             padding: 10px;
-            background-color: transparent;
+            text-align: center;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        .productenTonen table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .productenTonen th, .productenTonen td {
+            border: 1px solid #FFFFFF;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .gegevens {
+            border: 1px solid #FFFFFF;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .betalen {
+            border: 1px solid #FFFFFF;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 10px;
         }
 
         .fa-shopping-cart {
@@ -47,61 +75,101 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: transparent;
         }
 
-        .productenWinkelmandje {
-            border: 1px solid #FFFFFF;
-            padding: 10px;
-            margin-left: 60px;
-            width: 40%;
+        .fa-dollar {
+            color: #FFFFFF;
+            background-color: transparent;
+        }
+
+        .WinkelmandjeTerug {
             text-align: center;
+            padding: 4px;
+            background-color: transparent;
             margin-top: 10px;
         }
-
-        .product {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #FFFFFF;
-            padding-bottom: 10px;
+        .naarIDealpagina {
+            text-align: center;
+            padding: 4px;
+            background-color: transparent;
+            margin-top: auto;
         }
+        .totaalPrijs {
+            text-align: left;
+            margin-top: 20px;
+            margin-left: 50px;
 
+        }
     </style>
 </head>
 <body>
 
-<div class="WinkelmandjeTerug">
-    <form action="winkelmandje.php" method="post">
-        <button type="submit" class="fas fa-shopping-cart" id="AfrekenenKnop"> Terug Naar Winkelmandje</button>
-    </form>
-</div>
-
-<div class="container">
+<div class="titel">
     <h1>Afrekenen</h1>
 </div>
 
-<div class="productenWinkelmandje">
-    <h1>Producten</h1>
-    <div class="productenTonen">
-        <?php
-        $cart = getCart();
-        $connection = connectToDatabase();
+<div class="grid-container">
+    <div class="productenWinkelmandje">
+        <h1>Producten</h1>
+        <div class="productenTonen">
+            <table>
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Aantal</th>
+                    <th>Totaalprijs</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                $cart = getCart();
+                $connection = connectToDatabase();
+                $totaalPrijs = 0;
 
-        foreach ($cart as $Artikelnummer => $aantal) {
-            print("<div class='cart-item'>");
+                foreach ($cart as $Artikelnummer => $aantal) {
+                    print("<tr>");
 
-            // With the use of the article number, $productdetails displays information about products
-            $productDetails = getStockItem($Artikelnummer, $connection);
-            $StockItemImage = getStockItemImage($Artikelnummer, $connection);
+                    $productDetails = getStockItem($Artikelnummer, $connection);
 
-            if ($productDetails) {
-                print("<div class='product'>");
-                print("<div class='product-info'>");
-                print("<h3>" . $productDetails['StockItemName'] . "</h3>");
-                print("</div>");
-                print("</div>");
-            }
-        }
-        ?>
+                    // Rond de prijs op twee decimalen af
+                    $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+                    if ($productDetails) {
+                        print("<td>" . $productDetails['StockItemName'] . "</td>");
+                        print("<td>" . $aantal . "</td>");
+                        print("<td>". totaalPrijsPerProduct($aantal,$afgerondePrijs));
+                    }
+                    print("</tr>");
+                    $totaalPrijs += $aantal * $afgerondePrijs;
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="WinkelmandjeTerug">
+            <form action="winkelmandje.php" method="post">
+                <button type="submit" class="fas fa-shopping-cart" id="AfrekenenKnop"> Terug Naar Winkelmandje</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="gegevens">
+        <h1>NAW-Gegevens</h1>
+
+    </div>
+
+    <div class="betalen">
+        <h1>Betalen</h1>
+        <div class="totaalPrijs">
+            <h5>Totaalprijs: €<?php print($totaalPrijs) ?></h5>
+            <h8>Inclusief Btw</h8>
+
+        </div>
+
+
+        <div class="naarIDealpagina">
+            <form action="iDealdemopagina.php" method="post">
+                <button type="submit" class="fas fa-dollar" id="AfrekenenKnop">Betalen</button>
+            </form>
+        </div>
+
     </div>
 </div>
 

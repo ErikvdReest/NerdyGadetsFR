@@ -20,12 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title >Winkelwagen</title>
     <style>
-        h1 {
-            text-align: center;
-            border: 1px solid #FFFFFF;
-            padding: 10px;
-            width: 100%;
-        }
+         h1 {
+             text-align: center;
+             border: 1px solid #FFFFFF;
+             padding: 10px;
+             width: 100%;
+             border-radius: 20px;
+         }
 
         .product {
             display: inline-block;
@@ -34,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 15px;
             border: 1px solid #FFFFFF;
             margin-left: 20px;
+            border-radius: 20px;
 
         }
         .aantal {
@@ -43,8 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 30px;
             text-align: left;
             background-color: transparent;
+            border-radius: 20px;
 
         }
+
         .transparent-button {
             background: transparent;
             border: none;
@@ -133,6 +137,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("</div>");
             }
             $aantalProducten += ($aantal);
+            $totaalPrijs += $aantal * $afgerondePrijs;
         }
 
 }
@@ -181,7 +186,7 @@ if (isset($_POST["favorieten"])) {
 <div class="prijs">
     <div class="box">
         <h6>Subtotaal:</h6>
-        <h9><?php print("€".totaalPrijs($aantal,$afgerondePrijs)) ?></h9>
+        <h9><?php print("€".$totaalPrijs) ?></h9>
         <hr>
         <h7>Artikelen:</h7>
         <h10><?php print($aantalProducten) ?></h10>
