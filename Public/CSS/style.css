@@ -552,7 +552,7 @@ ul#ul-class-price li {
 }
 .prijs #AfrekenenKnop{
     margin-top: 40px;
-    margin-right: 20px;
+    margin-left: 1000px;
     position:fixed;
     font-size: large;
     top:65%;
