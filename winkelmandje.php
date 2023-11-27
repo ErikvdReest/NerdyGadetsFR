@@ -137,9 +137,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("</div>");
             }
             $aantalProducten += ($aantal);
-            $totaalPrijs += $aantal * $afgerondePrijs;
+            $totaalPrijs += ($aantal * $afgerondePrijs);
         }
-
 }
 //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
 if (isset($_POST["verwijderen"])) {
@@ -186,10 +185,12 @@ if (isset($_POST["favorieten"])) {
 <div class="prijs">
     <div class="box">
         <h6>Subtotaal:</h6>
+        <h1><?php $totaalPrijs = number_format($totaalPrijs, 2);   ?></h1>
         <h9><?php print("€".$totaalPrijs) ?></h9>
         <hr>
         <h7>Artikelen:</h7>
-        <h10><?php print($aantalProducten) ?></h10>
+
+        <h10> <?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
         <form action="afrekenen.php" method="post">
             <button type="submit" id="AfrekenenKnop">Naar de kassa</button>

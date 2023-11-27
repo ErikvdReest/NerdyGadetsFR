@@ -139,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     print("</tr>");
                     $totaalPrijs += $aantal * $afgerondePrijs;
                 }
+                $totaalPrijs = number_format($totaalPrijs, 2);
                 ?>
                 </tbody>
             </table>
