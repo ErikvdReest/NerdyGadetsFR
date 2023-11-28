@@ -200,9 +200,9 @@ if (isset($amount)) {
 
     function getVoorraadTekst($actueleVoorraad) {
         if ($actueleVoorraad > 1000) {
-            print "Ruime voorraad beschikbaar.";
+            return "Ruime voorraad beschikbaar.";
         } else {
-            print "Voorraad: $actueleVoorraad";
+            return "Voorraad: $actueleVoorraad";
         }
     }
     function berekenVerkoopPrijs($adviesPrijs, $btw) {
@@ -297,23 +297,6 @@ if (isset($amount)) {
                     <div class="CenterPriceLeftChild">
                         <h1 class="StockItemPriceText"><?php print sprintf(" %0.2f", berekenVerkoopPrijs($row["RecommendedRetailPrice"], $row["TaxRate"])); ?></h1>
                         <h6>Inclusief BTW</h6>
-
-                        <!-- Er is hier een form gebruikt om de knoppen naar favorieten.php te lijden -->
-                        <!-- De button lijdt nu naar favorieten.php  -->
-<!--                        <form method="post" >-->
-<!--                        <button id="Toevoegen" style="margin-top: 0;">-->
-<!--                            <a ><i class="fa fa-heart" ></i></a>-->
-<!--                        </button>-->
-<!--                        </form>-->
-
-                        <!-- Er is hier een form gebruikt om de knoppen naar winkelmandje.php te lijden -->
-                        <!-- De button lijdt nu naar winkelmandje.php  -->
-<!--                        <form method="post" ">-->
-<!--                        <button id="Toevoegen" style="margin-top: 0;">-->
-<!--                            <a ><i class="fas fa-shopping-cart"></i></a>-->
-<!--                        </button>-->
-<!--                        </form>-->
-
                     </div>
                 </div>
                 <h1 class="StockItemID">Artikelnummer: <?php print $row["StockItemID"]; ?></h1>

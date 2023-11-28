@@ -20,12 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title >Winkelwagen</title>
     <style>
-        h1 {
-            text-align: center;
-            border: 1px solid #FFFFFF;
-            padding: 10px;
-            width: 100%;
-        }
+         h1 {
+             text-align: center;
+             border: 1px solid #FFFFFF;
+             padding: 10px;
+             width: 100%;
+             border-radius: 20px;
+         }
 
         .product {
             display: inline-block;
@@ -34,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 15px;
             border: 1px solid #FFFFFF;
             margin-left: 20px;
+            border-radius: 20px;
 
         }
         .aantal {
@@ -43,8 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 30px;
             text-align: left;
             background-color: transparent;
+            border-radius: 20px;
 
         }
+
         .transparent-button {
             background: transparent;
             border: none;
@@ -97,12 +101,12 @@ foreach ($cart as $Artikelnummer => $aantal) {
     $StockItemImage = getStockItemImage($Artikelnummer, $connection);
 
     if (isset($StockItemImage)) {
-        // één plaatje laten zien
         if (count($StockItemImage) == 1) {
-            ?>
+        } ?>
             <div id="ImageFrameCart"
-                 style="background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 155px;  border: 5px solid #FFFFFF background-repeat: no-repeat; background-position: center;">
+                 style="background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 155px;  border: 1px solid #FFFFFF background-repeat: no-repeat; background-position: center;">
             </div>
+            
 
             <?php
 
@@ -112,8 +116,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<h3>" . $productDetails['StockItemName'] . "</h3>");
                 // Rond de prijs op twee decimalen af
                 $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
-                // Toont de prijs
-                print("<p>Prijs: €" . $afgerondePrijs . "</p>");
+                // Toont de prijs en totaalprijs van het aantal producten
+                print("<p>Totaalprijs: €" . totaalPrijsPerProduct($aantal,$afgerondePrijs) . " Per Product: €$afgerondePrijs</p>");
                 // Toont de voorraad
                 print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
 
@@ -132,12 +136,9 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("</div>");
                 print("</div>");
             }
-            $totaalPrijs += ($aantal * $afgerondePrijs);
             $aantalProducten += ($aantal);
+            $totaalPrijs += ($aantal * $afgerondePrijs);
         }
-    }
-
-
 }
 //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
 if (isset($_POST["verwijderen"])) {
@@ -180,9 +181,21 @@ if (isset($_POST["favorieten"])) {
 
 
 ?>
+
 <div class="prijs">
-<h6>Totaalprijs: € <?php print($totaalPrijs) ?> </h6>
-<h6>Artikelen: <?php print($aantalProducten) ?></h6>
+    <div class="box">
+        <h6>Subtotaal:</h6>
+        <h1><?php $totaalPrijs = number_format($totaalPrijs, 2);   ?></h1>
+        <h9><?php print("€".$totaalPrijs) ?></h9>
+        <hr>
+        <h7>Artikelen:</h7>
+
+        <h10> <?php print($aantalProducten) ?></h10>
+        <h8>Totaalprijs</h8>
+        <form action="afrekenen.php" method="post">
+            <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
+        </form>
+    </div>
 </div>
 
 </body>
