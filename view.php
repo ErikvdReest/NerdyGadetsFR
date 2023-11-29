@@ -115,7 +115,7 @@ if (isset($_GET["id"])) {
 
         <?php
 
-
+        
         if (isset($_POST["submit"])) {
             $stockItemID = $_POST["stockItemID"];
             addProductToCart($stockItemID);
