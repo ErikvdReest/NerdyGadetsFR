@@ -8,7 +8,8 @@ if (isset($_GET["id"])) {
     $stockItemID = 0;
 }
 
-// Refreshes the page when a post occurs
+//Refreshed de pagina op het moment dat er een post plaats vindt
+//De pagina wordt direct gerefreshed als er post plaatsvindt.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Refresh:0");
 }
@@ -131,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     // Rond de prijs op twee decimalen af
                     $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+                    $voorraad = $productDetails['QuantityOnHand'];
                     if ($productDetails) {
                         print("<td>" . $productDetails['StockItemName'] . "</td>");
                         print("<td>" . $aantal . "</td>");
@@ -166,13 +168,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         <div class="naarIDealpagina">
-            <form action="iDealdemopagina.php" method="post">
-                <button type="submit" class="fas fa-dollar" id="AfrekenenKnop">Betalen</button>
+            <form method="post">
+                <button type='submit' name='betalen' class="fas fa-dollar" id="AfrekenenKnop">Betalen</button>
             </form>
         </div>
-
     </div>
 </div>
 
 </body>
 </html>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['betalen'])) {
+
+foreach ($cart as $Artikelnummer => $aantal) {
+updateQuantityOnHand($Artikelnummer, $aantal, $connection);
+}
+
+mysqli_close($connection);
+
+unset($_SESSION['cart']);
+}
+?>
+

@@ -46,3 +46,13 @@ function totaalPrijsPerProduct($aantal, $afgerondePrijs){
     return $totaalPrijsPerProduct;
 }
 
+function updateQuantityOnHand($stockItemID, $aantal, $connection)
+{
+    $query = "
+        UPDATE stockItemHoldings
+        SET quantityOnHand = quantityOnHand - $aantal
+        WHERE stockItemID = $stockItemID;
+    ";
+
+    mysqli_query($connection, $query);
+}

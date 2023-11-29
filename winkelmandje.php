@@ -117,7 +117,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 // Rond de prijs op twee decimalen af
                 $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
                 // Toont de prijs en totaalprijs van het aantal producten
-                print("<p>Totaalprijs: €" . totaalPrijsPerProduct($aantal,$afgerondePrijs) . " Per Product: €$afgerondePrijs</p>");
+                print("<p>Prijs: €" . totaalPrijsPerProduct($aantal,$afgerondePrijs) . "</p>");
                 // Toont de voorraad
                 print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
 
@@ -130,7 +130,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
                 print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
                 print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
-                print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
+//                print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
                 print("</div>");
                 print("</form>");
                 print("</div>");
@@ -178,7 +178,6 @@ if (isset($_POST["favorieten"])) {
     $favorietenItemID = $_POST["favorieten"];
 
 }
-
 
 ?>
 
