@@ -191,9 +191,9 @@ if (isset($_POST["favorieten"])) {
 
         <h10> <?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
-        <form action="afrekenen.php" method="post">
-            <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
-        </form>
+<!--        <form action="afrekenen.php" method="post">-->
+<!--            <button type="submit" id="AfrekenenKnop">Naar de kassa</button>-->
+<!--        </form>-->
     </div>
 </div>
 
