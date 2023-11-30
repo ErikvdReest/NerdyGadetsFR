@@ -485,15 +485,15 @@ ul#ul-class-price li {
     border: 1px rgb(98, 158, 255) solid;
     color: #fff;
 }
-.prijs .box{
-    margin-top: 40px;
-    width: 300px;
-    height: 300px;
+.prijs .box {
+    margin-top: 2%;
+    width: 20vw;
+    height: 20vw;
     display: -webkit-box;
     box-sizing: border-box;
     background: #ffffff;
-    position:fixed;
-    top:35%;
+    position: fixed;
+    top: 35%;
     right: 10%;
     z-index: 900;
     border-radius: 25px;
@@ -502,7 +502,7 @@ ul#ul-class-price li {
 .prijs h6 {
     margin-top: 40px;
     position:fixed;
-    font-size: large;
+    font-size: 1.2vw;
     top:48%;
     right:22%;
     z-index: 950;
@@ -511,7 +511,7 @@ ul#ul-class-price li {
 .prijs h7{
     margin-top: 40px;
     position:fixed;
-    font-size: large;
+    font-size: 1.2vw;
     top:53%;
     right:22.5%;
     z-index: 950;
@@ -526,13 +526,13 @@ ul#ul-class-price li {
     z-index: 950;
     color: #1b1e21;
     font-weight: bold;
-    font-size:xx-large;
+    font-size: 2.5vw;
 }
 .prijs h9{
     margin-top: 40px;
     font-weight: bold;
     position:fixed;
-    font-size: large;
+    font-size: 1.2vw;
     top:48%;
     right:12%;
     z-index: 950;
@@ -543,7 +543,7 @@ ul#ul-class-price li {
 .prijs h10{
     margin-top: 40px;
     position:fixed;
-    font-size: large;
+    font-size: 1.2vw;
     top:53%;
     right:12%;
     z-index: 950;
@@ -551,10 +551,10 @@ ul#ul-class-price li {
 
 }
 .prijs #AfrekenenKnop{
-    margin-top: 40px;
+    margin-top: 2%;
     margin-left: 1000px;
     position:fixed;
-    font-size: large;
+    font-size: 1.2vw;
     top:65%;
     right:16%;
     z-index: 950;
@@ -571,4 +571,14 @@ hr{
     z-index: 950;
     width: 280px;;
     border:black 10px;
+}
+.aspectwrapper {
+    display: inline-block; /* shrink to fit */
+    width: 100%;           /* whatever width you like */
+    position: relative;    /* so .content can use position: absolute */
+}
+.aspectwrapper::after {
+    padding-top: 56.25%; /* percentage of containing block width */
+    display: block;
+    content:'';
 }

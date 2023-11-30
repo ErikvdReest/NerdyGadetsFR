@@ -79,6 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: right;
             margin-right: 300px;
         }
+        .image {
+            margin-top: 15px;
+            margin-left: 10px;
+
+        }
 
     </style>
 </head>
@@ -91,6 +96,7 @@ $cart = getCart();
 $connection = connectToDatabase();
 $totaalPrijs = 0;
 $aantalProducten = 0;
+$afgerondePrijs = 0;
 
 //Toont de array $cart met artikelnummer als index//
 foreach ($cart as $Artikelnummer => $aantal) {
@@ -103,7 +109,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
     if (isset($StockItemImage)) {
         if (count($StockItemImage) == 1) {
         } ?>
-            <div id="ImageFrameCart"
+            <div id="ImageFrameCart" class="image"
                  style="background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 155px;  border: 1px solid #FFFFFF background-repeat: no-repeat; background-position: center;">
             </div>
             
@@ -125,7 +131,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<div class='aantal'>");
                 print("<form method='post' style='display: inline;'>");
                 print("Aantal: ");
-                print($aantal);
+                print("<input type='text' name='aantal[$Artikelnummer]' value='$aantal'>");
+                print("<button hidden type='submit' name='update_aantal' value='$Artikelnummer' class='transparent-button'>Update</button>");
                 print("<div class='aanpassen'>");
                 print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
                 print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
@@ -138,6 +145,15 @@ foreach ($cart as $Artikelnummer => $aantal) {
             }
             $aantalProducten += ($aantal);
             $totaalPrijs += ($aantal * $afgerondePrijs);
+        }
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_aantal'])) {
+    $updateItemID = $_POST["update_aantal"];
+    $newAantal = max(1, $_POST['aantal'][$updateItemID]);
+
+    if (array_key_exists($updateItemID, $cart)) {
+        $cart[$updateItemID] = (int)$newAantal;
+        updateCart($cart);
         }
 }
 //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
