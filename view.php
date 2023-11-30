@@ -133,7 +133,6 @@ if (isset($_GET["id"])) {
 
         <?php
         if (isset($_POST["Voegtoe"])) {
-            print ("hallo");
             addProductToCart($stockItemID);
 
         }
