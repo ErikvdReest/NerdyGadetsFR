@@ -7,7 +7,19 @@ include "favorietenfuncties.php";
 $StockItem = getStockItem($_GET['id'], $databaseConnection);
 $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
 ?>
+<script>
+    function myFunction() {
+        console.log();
+        if (confirm("wil je dit prodcut toevoegen aan je winkelwagen ?") === true){
+           let form=document.getElementById("Toevoegen");
+            console.log(form);
+            form.submit();
 
+        }
+
+
+    }
+</script>
 <?php
 //?id=1 handmatig meegeven via de URL (gebeurt normaal gesproken als je via overzicht op artikelpagina terechtkomt)
 if (isset($_GET["id"])) {
@@ -91,20 +103,24 @@ if (isset($_GET["id"])) {
                 <p class="StockItemPriceText" style="margin-top: 100px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                 <h6> Inclusief BTW </h6>
 
-                <form method="post" action="">
-                    <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">
-                        <i class="fas fa-heart"> Favorieten</i>
-                    </button>
-                </form>
+                <!--                <form method="post" action="">-->
+                <!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
+                <!--                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">-->
+                <!--                        <i class="fas fa-heart"> Favorieten</i>-->
+                <!--                    </button>-->
+                <!--                </form>-->
 
-                <form method="post" action="">
-                    <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submit" id="Toevoegen" style="margin-top: 0px;">
+<!--                <form id="AddToCart">-->
+<!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
+                    <button type="button" onclick="myFunction()"  style="margin-top: 100px;">
                         <i class="fas fa-shopping-cart"> In Winkelmandje</i>
                     </button>
-                </form>
+<!--                </form>-->
+                <form method="post" action="" id="Toevoegen" name="Toevoegen">
+                    <input type="number" name="Voegtoe" value="<?php print($stockItemID) ?>" hidden>
+                    <input type="submit" name="Voegtoe" hidden>
 
+                </form>
                 <div class="CenterPriceLeft">
                     <div class="CenterPriceLeftChild" style="margin-top: 0px">
                     </div>
@@ -113,26 +129,33 @@ if (isset($_GET["id"])) {
             </div>
         </div>
 
+
+
         <?php
-        if (isset($_POST["submit"])) {
-            $stockItemID = $_POST["stockItemID"];
+        if (isset($_POST["Voegtoe"])) {
+            print ("hallo");
             addProductToCart($stockItemID);
+
         }
 
+//        if (isset($_POST["submit"])) {
+//            $stockItemID = $_POST["stockItemID"];
+//            addProductToCart($stockItemID);
+//        }
 
-        if (isset($_POST["submitfavorit"])) {
-            $stockItemID = $_POST["stockItemID"];
-            addProductToFavorit($stockItemID);
-        }
+//        if (isset($_POST["submitfavorit"])) {
+//            $stockItemID = $_POST["stockItemID"];
+//            addProductToFavorit($stockItemID);
+//        }
         ?>
 
         <style>
             #Toevoegen {
-            font-size: 18px;
-            color: #FFFFFF;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
+                font-size: 18px;
+                color: #FFFFFF;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
             }
         </style>
 

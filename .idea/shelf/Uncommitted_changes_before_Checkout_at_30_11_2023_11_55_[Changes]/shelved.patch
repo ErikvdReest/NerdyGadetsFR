@@ -1,0 +1,100 @@
+Index: view.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!-- dit bestand bevat alle code voor de pagina die één product laat zien -->\r\n<?php\r\ninclude __DIR__ . \"/header.php\";\r\ninclude \"cartfuncties.php\";\r\ninclude \"favorietenfuncties.php\";\r\n\r\n$StockItem = getStockItem($_GET['id'], $databaseConnection);\r\n$StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);\r\n?>\r\n\r\n<?php\r\n//?id=1 handmatig meegeven via de URL (gebeurt normaal gesproken als je via overzicht op artikelpagina terechtkomt)\r\nif (isset($_GET[\"id\"])) {\r\n    $stockItemID = $_GET[\"id\"];\r\n} else {\r\n    $stockItemID = 0;\r\n}\r\n?>\r\n\r\n<div id=\"CenteredContent\">\r\n    <?php\r\n    if ($StockItem != null) {\r\n        ?>\r\n        <?php\r\n        if (isset($StockItem['Video'])) {\r\n            ?>\r\n            <div id=\"VideoFrame\">\r\n                <?php print $StockItem['Video']; ?>\r\n            </div>\r\n        <?php }\r\n        ?>\r\n\r\n\r\n        <div id=\"ArticleHeader\">\r\n            <?php\r\n            if (isset($StockItemImage)) {\r\n                // één plaatje laten zien\r\n                if (count($StockItemImage) == 1) {\r\n                    ?>\r\n                    <div id=\"ImageFrame\"\r\n                         style=\"background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 300px; background-repeat: no-repeat; background-position: center;\"></div>\r\n                    <?php\r\n                } else if (count($StockItemImage) >= 2) { ?>\r\n                    <!-- meerdere plaatjes laten zien -->\r\n                    <div id=\"ImageFrame\">\r\n                        <div id=\"ImageCarousel\" class=\"carousel slide\" data-interval=\"false\">\r\n                            <!-- Indicators -->\r\n                            <ul class=\"carousel-indicators\">\r\n                                <?php for ($i = 0; $i < count($StockItemImage); $i++) {\r\n                                    ?>\r\n                                    <li data-target=\"#ImageCarousel\"\r\n                                        data-slide-to=\"<?php print $i ?>\" <?php print (($i == 0) ? 'class=\"active\"' : ''); ?>></li>\r\n                                    <?php\r\n                                } ?>\r\n                            </ul>\r\n\r\n                            <!-- slideshow -->\r\n                            <div class=\"carousel-inner\">\r\n                                <?php for ($i = 0; $i < count($StockItemImage); $i++) {\r\n                                    ?>\r\n                                    <div class=\"carousel-item <?php print ($i == 0) ? 'active' : ''; ?>\">\r\n                                        <img src=\"Public/StockItemIMG/<?php print $StockItemImage[$i]['ImagePath'] ?>\">\r\n                                    </div>\r\n                                <?php } ?>\r\n                            </div>\r\n\r\n                            <!-- knoppen 'vorige' en 'volgende' -->\r\n                            <a class=\"carousel-control-prev\" href=\"#ImageCarousel\" data-slide=\"prev\">\r\n                                <span class=\"carousel-control-prev-icon\"></span>\r\n                            </a>\r\n                            <a class=\"carousel-control-next\" href=\"#ImageCarousel\" data-slide=\"next\">\r\n                                <span class=\"carousel-control-next-icon\"></span>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                    <?php\r\n                }\r\n            } else {\r\n                ?>\r\n                <div id=\"ImageFrame\"\r\n                     style=\"background-image: url('Public/StockGroupIMG/<?php print $StockItem['BackupImagePath']; ?>'); background-size: cover;\"></div>\r\n                <?php\r\n            }\r\n            ?>\r\n            <h1 class=\"StockItemID\">Artikelnummer: <?php print $StockItem[\"StockItemID\"]; ?></h1>\r\n            <h2 class=\"StockItemNameViewSize StockItemName\">\r\n                <?php print $StockItem['StockItemName']; ?>\r\n            </h2>\r\n            <div class=\"QuantityText\"><?php print $StockItem['QuantityOnHand']; ?></div>\r\n            <div id=\"StockItemHeaderLeft\">\r\n                <p class=\"StockItemPriceText\" style=\"margin-top: 100px\"><b><?php print sprintf(\"€ %.2f\", $StockItem['SellPrice']); ?></b></p>\r\n                <h6> Inclusief BTW </h6>\r\n\r\n                <form method=\"post\" action=\"\">\r\n                    <input type=\"number\" name=\"stockItemID\" value=\"<?php print($stockItemID) ?>\" hidden>\r\n                    <button type=\"submit\" name=\"submitfavorit\" id=\"Toevoegen\" style=\"margin-top: 75px;\">\r\n                        <i class=\"fas fa-heart\"> Favorieten</i>\r\n                    </button>\r\n                </form>\r\n\r\n                <form method=\"post\" action=\"\">\r\n                    <input type=\"number\" name=\"stockItemID\" value=\"<?php print($stockItemID) ?>\" hidden>\r\n                    <button type=\"submit\" name=\"submit\" id=\"Toevoegen\" style=\"margin-top: 0px;\">\r\n                        <i class=\"fas fa-shopping-cart\"> In Winkelmandje</i>\r\n                    </button>\r\n                </form>\r\n\r\n                <div class=\"CenterPriceLeft\">\r\n                    <div class=\"CenterPriceLeftChild\" style=\"margin-top: 0px\">\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n\r\n        <?php\r\n        if (isset($_POST[\"submit\"])) {\r\n            $stockItemID = $_POST[\"stockItemID\"];\r\n            addProductToCart($stockItemID);\r\n        }\r\n\r\n\r\n        if (isset($_POST[\"submitfavorit\"])) {\r\n            $stockItemID = $_POST[\"stockItemID\"];\r\n            addProductToFavorit($stockItemID);\r\n        }\r\n        ?>\r\n\r\n        <style>\r\n            #Toevoegen {\r\n            font-size: 18px;\r\n            color: #FFFFFF;\r\n            background-color: transparent;\r\n            border: none;\r\n            cursor: pointer;\r\n            }\r\n        </style>\r\n\r\n        <div id=\"StockItemDescription\">\r\n            <h3>Artikel beschrijving</h3>\r\n            <p><?php print $StockItem['SearchDetails']; ?></p>\r\n            <ul id=\"Content\" style=\"margin-top: 0;\">\r\n            </ul>\r\n        </div>\r\n\r\n        <div id=\"StockItemSpecifications\" style=\"text-align: left;\">\r\n            <h3>Artikel specificaties</h3>\r\n            <?php\r\n            $CustomFields = json_decode($StockItem['CustomFields'], true);\r\n            if (is_array($CustomFields)) { ?>\r\n                <table>\r\n                    <thead>\r\n                    <th>Naam</th>\r\n                    <th>Data</th>\r\n                    </thead>\r\n                    <?php\r\n                    foreach ($CustomFields as $SpecName => $SpecText) { ?>\r\n                        <tr>\r\n                            <td>\r\n                                <?php print $SpecName; ?>\r\n                            </td>\r\n                            <td>\r\n                                <?php\r\n                                if (is_array($SpecText)) {\r\n                                    foreach ($SpecText as $SubText) {\r\n                                        print $SubText . \" \";\r\n                                    }\r\n                                } else {\r\n                                    print $SpecText;\r\n                                }\r\n                                ?>\r\n                            </td>\r\n                        </tr>\r\n                    <?php } ?>\r\n                </table>\r\n            <?php } else { ?>\r\n                <p><?php print $StockItem['CustomFields']; ?>.</p>\r\n            <?php } ?>\r\n        </div>\r\n\r\n        <?php\r\n    } else {\r\n        ?><h2 id=\"ProductNotFound\">Het opgevraagde product is niet gevonden.</h2><?php\r\n    } ?>\r\n</div>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/view.php b/view.php
+--- a/view.php	
++++ b/view.php	
+@@ -3,6 +3,7 @@
+ include __DIR__ . "/header.php";
+ include "cartfuncties.php";
+ include "favorietenfuncties.php";
++//include "winkelmandje.php";
+ 
+ $StockItem = getStockItem($_GET['id'], $databaseConnection);
+ $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
+@@ -15,6 +16,9 @@
+ } else {
+     $stockItemID = 0;
+ }
++if (isset($_POST['Toevoegen'])) {
++    addProductToCart($stockItemID);
++}
+ ?>
+ 
+ <div id="CenteredContent">
+@@ -112,19 +116,66 @@
+ 
+             </div>
+         </div>
++        <script>
++            function Doconfirm() {
++
++                if (confirm("Press a button!") == true) {
++                let form = document.getElementById("addtocart");
++                form.submit();
++                } else {
+ 
++                }
++
++            }
++        </script>
+         <?php
+-        if (isset($_POST["submit"])) {
+-            $stockItemID = $_POST["stockItemID"];
+-            addProductToCart($stockItemID);
+-        }
++//        if (isset($_POST["submit"])) {
++//            $stockItemID = $_POST["stockItemID"];
++//            addProductToCart($stockItemID);
++//        }
+ 
+ 
+         if (isset($_POST["submitfavorit"])) {
+             $stockItemID = $_POST["stockItemID"];
+             addProductToFavorit($stockItemID);
+         }
+-        ?>
++
++
++
++        if (isset($_POST['confirm'])) {
++            if ($_POST['confirm'] === 'Yes') {
++
++                echo '<script>Doconfirm()</script>';
++            } else if ($_POST['confirm'] === 'No') {
++
++            }
++        }
++                                                  ?>
++        <form method="post">
++
++<?php
++
++    ?>
++    <input type="submit" id="addtocart" name="confirm" value="Yes"><br/>
++    <input type="submit" name="confirm" value="No"><br/>
++    <?php
++
++?>
++        </form>
++
++<!--            <script>-->
++<!--        function melding (){-->
++<!--            let text;-->
++<!--                array_key_exists($stockItemID, $cart)) {  //controleren of $stockItemID(=key!) al in array staat-->
++<!--                $cart[$stockItemID] += 1;-->
++<!--            if (confirm("je hebt een product aan je winkelwagen toegevoegd !") == true) {-->
++<!---->
++<!--            } else {-->
++<!---->
++<!--            }-->
++<!--            document.getElementById("demo").innerHTML = text;-->
++<!--        }-->
++<!--        </script>-->
+ 
+         <style>
+             #Toevoegen {
