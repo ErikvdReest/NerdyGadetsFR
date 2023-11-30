@@ -32,3 +32,27 @@ function addProductToCart($stockItemID)
 function updateCart($cart) {
     $_SESSION['cart'] = $cart; // Set the updated cart in the session
 }
+
+function totaalPrijs($aantal, $afgerondePrijs){
+    $totaalPrijs = 0;
+    $totaalPrijs += ($aantal * $afgerondePrijs);
+    $totaalPrijs = number_format($totaalPrijs, 2);
+    return $totaalPrijs;
+}
+
+function totaalPrijsPerProduct($aantal, $afgerondePrijs){
+    $totaalPrijsPerProduct = $aantal * $afgerondePrijs;
+    $totaalPrijsPerProduct = number_format($totaalPrijsPerProduct, 2);
+    return $totaalPrijsPerProduct;
+}
+
+function updateQuantityOnHand($stockItemID, $aantal, $connection)
+{
+    $query = "
+        UPDATE stockItemHoldings
+        SET quantityOnHand = quantityOnHand - $aantal
+        WHERE stockItemID = $stockItemID;
+    ";
+
+    mysqli_query($connection, $query);
+}

@@ -95,3 +95,5 @@ function getStockItemImage($id, $databaseConnection) {
 
     return $R;
 }
+
+

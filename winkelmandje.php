@@ -20,12 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title >Winkelwagen</title>
     <style>
-        h1 {
-            text-align: center;
-            border: 1px solid #FFFFFF;
-            padding: 10px;
-            width: 100%;
-        }
+         h1 {
+             text-align: center;
+             border: 1px solid #FFFFFF;
+             padding: 10px;
+             width: 100%;
+             border-radius: 20px;
+         }
 
         .product {
             display: inline-block;
@@ -34,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 15px;
             border: 1px solid #FFFFFF;
             margin-left: 20px;
+            border-radius: 20px;
 
         }
         .aantal {
@@ -43,8 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 30px;
             text-align: left;
             background-color: transparent;
+            border-radius: 20px;
 
         }
+
         .transparent-button {
             background: transparent;
             border: none;
@@ -75,6 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: right;
             margin-right: 300px;
         }
+        .image {
+            margin-top: 15px;
+            margin-left: 10px;
+
+        }
 
     </style>
 </head>
@@ -87,6 +96,7 @@ $cart = getCart();
 $connection = connectToDatabase();
 $totaalPrijs = 0;
 $aantalProducten = 0;
+$afgerondePrijs = 0;
 
 //Toont de array $cart met artikelnummer als index//
 foreach ($cart as $Artikelnummer => $aantal) {
@@ -99,7 +109,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
     if (isset($StockItemImage)) {
         if (count($StockItemImage) == 1) {
         } ?>
-            <div id="ImageFrameCart"
+            <div id="ImageFrameCart" class="image"
                  style="background-image: url('Public/StockItemIMG/<?php print $StockItemImage[0]['ImagePath']; ?>'); background-size: 155px;  border: 1px solid #FFFFFF background-repeat: no-repeat; background-position: center;">
             </div>
             
@@ -112,8 +122,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<h3>" . $productDetails['StockItemName'] . "</h3>");
                 // Rond de prijs op twee decimalen af
                 $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
-                // Toont de prijs
-                print("<p>Prijs: €" . $afgerondePrijs . "</p>");
+                // Toont de prijs en totaalprijs van het aantal producten
+                print("<p>Prijs: €" . totaalPrijsPerProduct($aantal,$afgerondePrijs) . "</p>");
                 // Toont de voorraad
                 print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
 
@@ -121,7 +131,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<div class='aantal'>");
                 print("<form method='post' style='display: inline;'>");
                 print("Aantal: ");
-                print($aantal);
+                print("<input type='text' name='aantal[$Artikelnummer]' value='$aantal'>");
+                print("<button hidden type='submit' name='update_aantal' value='$Artikelnummer' class='transparent-button'>Update</button>");
                 print("<div class='aanpassen'>");
                 print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
                 print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
@@ -132,12 +143,18 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("</div>");
                 print("</div>");
             }
-            $totaalPrijs += ($aantal * $afgerondePrijs);
             $aantalProducten += ($aantal);
+            $totaalPrijs += ($aantal * $afgerondePrijs);
         }
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_aantal'])) {
+    $updateItemID = $_POST["update_aantal"];
+    $newAantal = max(1, $_POST['aantal'][$updateItemID]);
 
-
-
+    if (array_key_exists($updateItemID, $cart)) {
+        $cart[$updateItemID] = (int)$newAantal;
+        updateCart($cart);
+        }
 }
 //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
 if (isset($_POST["verwijderen"])) {
@@ -178,20 +195,22 @@ if (isset($_POST["favorieten"])) {
 
 }
 
-
 ?>
+
 <div class="prijs">
     <div class="box">
-
         <h6>Subtotaal:</h6>
+        <h1><?php $totaalPrijs = number_format($totaalPrijs, 2);   ?></h1>
         <h9><?php print("€".$totaalPrijs) ?></h9>
         <hr>
         <h7>Artikelen:</h7>
-        <h10><?php print($aantalProducten) ?></h10>
-        <h8>Totaalprijs</h8>
-        <button type="submit" id="AfrekenenKnop">Betalen</button>
 
-        </div>
+        <h10> <?php print($aantalProducten) ?></h10>
+        <h8>Totaalprijs</h8>
+        <form action="afrekenen.php" method="post">
+            <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
+        </form>
+    </div>
 </div>
 
 </body>

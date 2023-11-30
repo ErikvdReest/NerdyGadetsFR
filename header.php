@@ -56,10 +56,10 @@ $databaseConnection = connectToDatabase();
         
     
         <ul id="ul-class-navigation">
-                <a href="favorieten.php" class="HrefDecoration"><i class="fas fa-heart" ></i> | </a>
+<!--                <a href="favorieten.php" class="HrefDecoration"><i class="fas fa-heart" ></i> | </a>-->
                 <a href="winkelmandje.php" class="HrefDecoration"><i class="fas fa-shopping-cart"></i> | </a>
-                <a href="browse.php" class="HrefDecoration"><i class="fas fa-search "></i> | </a>
-                <a href="registratie.php" class="HrefDecoration"><i class="fas fa-user"></i>  </a>
+                <a href="browse.php" class="HrefDecoration"><i class="fas fa-search "></i> </a>
+<!--                <a href="registratie.php" class="HrefDecoration"><i class="fas fa-user"></i>  </a>-->
         </ul>
 
     </div>
