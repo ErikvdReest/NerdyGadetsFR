@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Refresh:0");
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .betalen {
             margin-top: 20px;
+
         }
 
         .grid-container {
@@ -66,10 +68,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
             margin-top: 20px;
         }
+        .style {
+            border: 1px solid #FFFFFF;
+            border-radius: 20px;
+            padding: 20px;
+            width: 40%;
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 260px;
+        }
+        #AfrekenenKnop {
+            background-color: transparent; /* Maak de achtergrond transparant */
+            border: 1px solid #FFFFFF; /* Voeg een witte rand toe voor zichtbaarheid */
+            border-radius: 10px; /* Afgeronde hoeken */
+            padding: 15px; /* Vergroot de padding voor een grotere knop */
+            font-size: 18px; /* Vergroot de tekstgrootte */
+            color: #FFFFFF; /* Tekstkleur wit voor contrast */
+        }
+
+        #AfrekenenKnop:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* Licht op wanneer de knop wordt aangeraakt */
+        }
     </style>
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function () {-->
+<!--            var betalenForm = document.querySelector('.betalen form');-->
+<!---->
+<!--            betalenForm.addEventListener('submit', function (event) {-->
+<!--                event.preventDefault();-->
+<!---->
+<!--                // Toon een eenvoudige pop-up-->
+<!--                alert('Betaling verwerkt!');-->
+<!---->
+<!--                // Open index.php after the alert is closed-->
+<!--                window.location.href = 'index.php';-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
 </head>
 <body>
 
+<div class="style">
 <div class="container">
     <div class="titel">
         <h1>Ideal</h1>
@@ -83,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="naam" name="naam" required>
                 <div class="betalen">
                     <form method="post">
-                        <button type='submit' name='betalen' class="IdealKnop" id="AfrekenenKnop">Betalen</button>
+                        <button type='submit' name='betalen' class="fas fa-shopping-bag" id="AfrekenenKnop"> Bestellen & Betalen</button>
                     </form>
                 </div>
             </form>
@@ -120,12 +162,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
 
     <div class="Terug">
-        <form action="afrekenen.php" method="post">
-            <button type="submit" id="AfrekenenKnop">Annuleren</button>
+        <form action="index.php" method="post">
+            <button type="submit" id="AfrekenenKnop" class="fas fa-minus-circle"> Annuleren</button>
         </form>
     </div>
+</div>
 </div>
 
 </body>
 </html>
-

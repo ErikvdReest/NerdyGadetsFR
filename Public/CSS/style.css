@@ -539,7 +539,6 @@ ul#ul-class-price li {
     color: #1b1e21;
 
 }
-
 .prijs h10{
     margin-top: 40px;
     position:fixed;
@@ -563,15 +562,6 @@ ul#ul-class-price li {
 
 }
 
-hr{
-    margin-top: 40px;
-    position:fixed;
-    top:410px;
-    right:300px;
-    z-index: 950;
-    width: 280px;;
-    border:black 10px;
-}
 .aspectwrapper {
     display: inline-block; /* shrink to fit */
     width: 100%;           /* whatever width you like */

@@ -40,20 +40,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .aantal {
             display: inline-block;
-            width: 22%;
+            width: 20%;
             border: 1px solid #FFFFFF;
-            padding: 30px;
+            padding: 20px;
             text-align: left;
             background-color: transparent;
             border-radius: 20px;
 
         }
 
-        .transparent-button {
+        .transparent-button-min {
             background: transparent;
             border: none;
             color: white;
         }
+
+         .transparent-button-plus {
+             margin-top: 10px;
+             margin-left: 20px;
+             background: transparent;
+             border: none;
+             color: white;
+         }
 
         h2, p {
             text-align: left;
@@ -75,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: none;
             color: #FFFFFF;
         }
+
         .prijs {
             text-align: right;
             margin-right: 300px;
@@ -84,6 +93,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-left: 10px;
 
         }
+         #AfrekenenKnop {
+             background-color: transparent;
+             border: 1px solid #FFFFFF;
+             border-radius: 10px;
+             padding: 15px;
+             font-size: 18px;
+             color: #FFFFFF;
+         }
+
+         #AfrekenenKnop:hover {
+             background-color: rgba(255, 165, 0, 1);
+         }
+         .transparent-button {
+             margin-left: 10px;
+             background-color: transparent;
+             border: none;
+             padding: 0;
+             font-size: 16px;
+             color: #FFFFFF;
+             cursor: pointer;
+         }
+
+         .transparent-button-plus:hover {
+             color: #00FF00; /* Groene kleur bij hover alleen voor plusknop */
+         }
+         .transparent-button-min:hover {
+             color: orange;
+         }
+
+         .delete-button {
+             margin-left: 10px;
+             background-color: transparent;
+             border: none;
+             padding: 0;
+             cursor: pointer;
+         }
+
+         .delete-button:hover {
+             color: #FF0000; /* Rode kleur bij hover voor verwijderknop */
+         }
+
 
     </style>
 </head>
@@ -134,8 +184,8 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<input type='text' name='aantal[$Artikelnummer]' value='$aantal'>");
                 print("<button hidden type='submit' name='update_aantal' value='$Artikelnummer' class='transparent-button'>Update</button>");
                 print("<div class='aanpassen'>");
-                print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button fas fa-plus'></button>");
-                print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button fas fa-minus'></button>");
+                print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button-plus fas fa-plus'></button>");
+                print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button-min fas fa-minus'></button>");
                 print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
 //                print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
                 print("</div>");
@@ -207,6 +257,7 @@ if (isset($_POST["favorieten"])) {
 
         <h10> <?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
+        <div class="NaarKassa"></div>
         <form action="afrekenen.php" method="post">
             <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
         </form>

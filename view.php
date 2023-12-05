@@ -98,10 +98,10 @@ if (isset($_GET["id"])) {
 <!--                    </button>-->
 <!--                </form>-->
 
-                <form method="post" action="">
+                <form method="post" action="" >
                     <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submit" id="Toevoegen" style="margin-top: 100px;">
-                        <i class="fas fa-shopping-cart"> In Winkelmandje</i>
+                    <button type="submit" name="submit" style="margin-top: 65px; background-color: transparent; border: 1px solid white; border-radius: 10px; padding: 10px; font-size: 18px; color: white;">
+                        <i class="fas fa-shopping-cart"></i> In Winkelmandje
                     </button>
                 </form>
 
@@ -127,15 +127,7 @@ if (isset($_GET["id"])) {
         }
         ?>
 
-        <style>
-            #Toevoegen {
-            font-size: 18px;
-            color: #FFFFFF;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            }
-        </style>
+
 
         <div id="StockItemDescription">
             <h3>Artikel beschrijving</h3>

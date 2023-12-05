@@ -56,3 +56,11 @@ function updateQuantityOnHand($stockItemID, $aantal, $connection)
 
     mysqli_query($connection, $query);
 }
+
+function addNawGegevens($Fullname,$DeliveryAdressLine2, $EmailAdress){
+    $query = "
+        INSERT INTO customers(CustomerName, DeliveryAddressLine2, BillToCustomerID, CustomerCategoryID, BuyingGroupID, PrimaryContactPersonID, AlternateContactPersonID, DeliveryMethodID, DeliveryCityID, PostalCityID, CreditLimit, AccountOpenedDate, StandardDiscountPercentage, IsStatementSent, IsOnCreditHold, PaymentDays, PhoneNumber, FaxNumber, WebsiteURL, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, LastEditedBy, ValidFrom, ValidTo, Emailadres)
+        VALUES ('$Fullname', '$DeliveryAdressLine2', 1, 3, 1, 1001, 2400, 3, 15, 15, 200000.00, '2013-01-01', 0.000, 0, 0, 7, '(201) 555-0100', '(201) 555-0101', 'http://www.microsoft.com/', 'unit 1', 90410, 'PO Box 101', 90410, 1, '2013-01-01 00:00:00', '9999-12-31 23:59:59', '$EmailAdress')
+    ";
+    mysqli_query($connection, $query);
+}
