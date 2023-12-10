@@ -212,7 +212,6 @@ toevoegen($cart);
         <h9><?php print("€".$totaalPrijs) ?></h9>
         <hr>
         <h7>Artikelen:</h7>
-
         <h10> <?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
         <div class="NaarKassa"></div>
