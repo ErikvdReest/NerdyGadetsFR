@@ -96,14 +96,3 @@ function getStockItemImage($id, $databaseConnection) {
     return $R;
 }
 
-function addOrder(){
-
-    $Query = "
-        INSERT INTO orders(OrderID)
-        Values()
-        ";
-}
-
-
-
-

@@ -197,53 +197,11 @@ foreach ($cart as $Artikelnummer => $aantal) {
             $totaalPrijs += ($aantal * $afgerondePrijs);
         }
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_aantal'])) {
-    $updateItemID = $_POST["update_aantal"];
-    $newAantal = max(1, $_POST['aantal'][$updateItemID]);
+update($cart);
+verminderen($cart);
+verwijderen($cart);
+toevoegen($cart);
 
-    if (array_key_exists($updateItemID, $cart)) {
-        $cart[$updateItemID] = (int)$newAantal;
-        updateCart($cart);
-        }
-}
-//Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
-if (isset($_POST["verwijderen"])) {
-    $verwijderItemID = $_POST["verwijderen"];
-
-    if (array_key_exists($verwijderItemID, $cart)) {
-        unset($cart[$verwijderItemID]);
-        updateCart($cart);
-    }
-}
-//Als er post plaatsvindt bij de min knop neemt de aantal met 1 af.
-//Op het moment dat het aantal 1 is en er post plaatsvindt wordt het product uit de array verwijdert.
-if (isset($_POST["verminderen"])) {
-    $verminderenItemID = $_POST["verminderen"];
-
-    if (array_key_exists($verminderenItemID, $cart)) {
-        $cart[$verminderenItemID] -= 1;
-        if ($cart[$verminderenItemID] <= 0) {
-            unset($cart[$verminderenItemID]);
-        }
-        updateCart($cart);
-    }
-}
-//Als er post plaatsvindt bij de plus knop neemt het aantal met 1 toe
-if (isset($_POST["toevoegen"])) {
-    $toevoegenItemID = $_POST["toevoegen"];
-
-    if (array_key_exists($toevoegenItemID, $cart)) {
-        $cart[$toevoegenItemID] += 1;
-    } else {
-        $cart[$toevoegenItemID] = 1;
-    }
-    updateCart($cart);
-}
-//Als er post plaatsvindt bij de heart knop wordt het product toegevoegd aan favorieten.
-if (isset($_POST["favorieten"])) {
-    $favorietenItemID = $_POST["favorieten"];
-
-}
 
 ?>
 
@@ -258,9 +216,15 @@ if (isset($_POST["favorieten"])) {
         <h10> <?php print($aantalProducten) ?></h10>
         <h8>Totaalprijs</h8>
         <div class="NaarKassa"></div>
+
         <form action="afrekenen.php" method="post">
-            <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
+            <?php if ($aantalProducten > 0): ?>
+                <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
+            <?php else: ?>
+                <button type="button" id="AfrekenenKnop" disabled>Naar de kassa</button>
+            <?php endif; ?>
         </form>
+
     </div>
 </div>
 

@@ -1,6 +1,7 @@
 <?php
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
+include "betalenFuncties.php";
 
 if (isset($_GET["id"])) {
     $stockItemID = $_GET["id"];
@@ -227,20 +228,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="grid-container">
     <?php
+                //Haalt de producten uit het winkelwagen op.
                 $cart = getCart();
+
+                //Maakt verbinding met de database
                 $connection = connectToDatabase();
+
                 $totaalPrijs = 0;
                 $brutoprijs = 0;
 
+                //Voor ieder product in het winkelwagen wordt deze foreach uitgevoerd
                 foreach ($cart as $Artikelnummer => $aantal) {
+
+                    //Haalt de gegevens van het product op
                     $productDetails = getStockItem($Artikelnummer, $connection);
 
                     // Rond de prijs op twee decimalen af
+                    //$productDetails['SellPrice'] haalt de prijs van het product op uit de database
                     $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+
+                    //$productDetails['QuantityOnHand'] haalt de voorraad op uit de database
                     $voorraad = $productDetails['QuantityOnHand'];
-                    $totaalPrijs += $aantal * $afgerondePrijs;
+
+                    $brutoPrijsPerStuk = 0.79 * $productDetails['SellPrice'];
+                    $brutoTotaalprijs = $brutoPrijsPerStuk * $aantal;
+
+                    $BtwPrijsPerStuk = 0.21 * $productDetails['SellPrice'];
+                    $BtwTotaalPrijs = $BtwPrijsPerStuk * $aantal;
+
+                    $totaalPrijs += $brutoTotaalprijs + $BtwTotaalPrijs;
                 }
+                //Rondt de totaalprijs af op 2 decimalen
                 $totaalPrijs = number_format($totaalPrijs, 2);
+                $BrutoTotaalprijs = number_format($brutoTotaalprijs, 2);
+                $BTW = number_format($BtwTotaalPrijs, 2);
                 ?>
 
 
@@ -304,6 +325,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+
             $DeliveryStreet = $_POST["yu_DeliveryAdressLine2"];
             $DeliveryNumber = $_POST["xu_DeliveryAdressLine2"];
             $PostalCode = $_POST["PostalPostalCode"];
@@ -318,19 +340,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $DeliveryAdressLine2 = $DeliveryStreet . ' ' . $DeliveryNumber;
 
+            //Als de bezoeker een tussenvoegsel invult zal deze worden toegevoegd bij de volledige naam
+            //Als de bezoeker geen tussenvoegsel invult zal de voor en achternaam samen de volledige naam worden
             if ($Tussenvoegsel == "") {
                 $Fullname = ($FirstName . " " . $Lastname);
             } elseif ($Tussenvoegsel != "") {
                 $Fullname = ($FirstName . " " . $Tussenvoegsel . " " . $Lastname);
             }
 
-            addNawGegevens($Fullname, $DeliveryAdressLine2, $EmailAdress);
+            addCustomer($Fullname, $DeliveryAdressLine2, $EmailAdress,$connection);
         }
       ?>
     </div>
-
-    <?php
-    ?>
 
     <div class="bestelling">
         <h1>Bestelling</h1>
@@ -340,14 +361,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <hr>
 
-        <div class="Prijzen">
-            <h6>Brutoprijs</h6>
-            <h6><?php  ?></h6>
-            <h6>BTW</h6>
-            <h6><?php  ?></h6>
-            <h6>Verzendkosten</h6>
-            <h6><?php  ?></h6>
-        </div>
+       <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+           <h6>Brutoprijs:</h6>
+           <h6 style="margin-left: auto;"><?php print("€". $BrutoTotaalprijs)?></h6>
+       </div>
+
+       <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+           <h6>BTW:</h6>
+           <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
+       </div>
+
+      <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+          <h6>Verzendkosten:</h6>
+          <h6 style="margin-left: auto;"><?php echo ("€" . 0.00) ?></h6>
+      </div>
 
         <div class="betalen">
             <form action="iDealdemopagina.php">
@@ -363,15 +390,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     ?>
 
-<!--<div id="popup" class="popup">-->
-<!--    onclick="openPopup()"-->
-<!--    <div class="popup-content">-->
-<!--        <span class="close" onclick="closePopup()">&times;</span>-->
-<!--        <p>Uw gegevens zijn opgeslagen</p>-->
-<!--    </div>-->
-<!--</div>-->
-<!---->
-<!--<script src="scripts.js"></script>-->
+<div id="popup" class="popup">
+    onclick="openPopup()"
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <p>Uw gegevens zijn opgeslagen</p>
+    </div>
+</div>
+
+<script src="scripts.js"></script>
 
 </body>
 </html>

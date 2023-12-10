@@ -1,6 +1,7 @@
 <?php
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
+include "betalenFuncties.php";
 
 if (isset($_GET["id"])) {
     $stockItemID = $_GET["id"];
@@ -146,6 +147,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $connection = connectToDatabase();
 
     foreach ($cart as $Artikelnummer => $aantal) {
+        $productDetails = getStockItem($Artikelnummer, $connection);
+
+        $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+        $prijsPerProduct = $afgerondePrijs;
+
+        $beschrijving = $productDetails['StockItemName'];
 
         $productDetails = getStockItem($Artikelnummer, $connection);
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['betalen'])) {
@@ -153,12 +160,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             foreach ($cart as $Artikelnummer => $aantal) {
                 updateQuantityOnHand($Artikelnummer, $aantal, $connection);
             }
+            addOrder($connection);
+            addOrderlines($connection,$aantal,$prijsPerProduct,$beschrijving,$Artikelnummer);
 
             mysqli_close($connection);
 
             unset($_SESSION['cart']);
         }
     }
+
+
     ?>
 
     <div class="Terug">

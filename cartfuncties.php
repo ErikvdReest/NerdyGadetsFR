@@ -57,10 +57,63 @@ function updateQuantityOnHand($stockItemID, $aantal, $connection)
     mysqli_query($connection, $query);
 }
 
-function addNawGegevens($Fullname,$DeliveryAdressLine2, $EmailAdress){
-    $query = "
-        INSERT INTO customers(CustomerName, DeliveryAddressLine2, BillToCustomerID, CustomerCategoryID, BuyingGroupID, PrimaryContactPersonID, AlternateContactPersonID, DeliveryMethodID, DeliveryCityID, PostalCityID, CreditLimit, AccountOpenedDate, StandardDiscountPercentage, IsStatementSent, IsOnCreditHold, PaymentDays, PhoneNumber, FaxNumber, WebsiteURL, DeliveryAddressLine1, DeliveryPostalCode, PostalAddressLine1, PostalPostalCode, LastEditedBy, ValidFrom, ValidTo, Emailadres)
-        VALUES ('$Fullname', '$DeliveryAdressLine2', 1, 3, 1, 1001, 2400, 3, 15, 15, 200000.00, '2013-01-01', 0.000, 0, 0, 7, '(201) 555-0100', '(201) 555-0101', 'http://www.microsoft.com/', 'unit 1', 90410, 'PO Box 101', 90410, 1, '2013-01-01 00:00:00', '9999-12-31 23:59:59', '$EmailAdress')
-    ";
-    mysqli_query($connection, $query);
+function update($cart){
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_aantal'])) {
+        $updateItemID = $_POST["update_aantal"];
+        $newAantal = max(1, $_POST['aantal'][$updateItemID]);
+
+        if (array_key_exists($updateItemID, $cart)) {
+            $cart[$updateItemID] = (int)$newAantal;
+            updateCart($cart);
+        }
+    }
 }
+
+function verminderen($cart){
+    //Als er post plaatsvindt bij de min knop neemt de aantal met 1 af.
+    //Op het moment dat het aantal 1 is en er post plaatsvindt wordt het product uit de array verwijdert.
+    if (isset($_POST["verminderen"])) {
+        $verminderenItemID = $_POST["verminderen"];
+
+        if (array_key_exists($verminderenItemID, $cart)) {
+            $cart[$verminderenItemID] -= 1;
+            if ($cart[$verminderenItemID] <= 0) {
+                unset($cart[$verminderenItemID]);
+            }
+            updateCart($cart);
+        }
+    }
+}
+
+function verwijderen($cart){
+    //Als er post plaatsvindt bij de prullenbak knop wordt het product uit de array verwijdert.
+    if (isset($_POST["verwijderen"])) {
+        $verwijderItemID = $_POST["verwijderen"];
+
+        if (array_key_exists($verwijderItemID, $cart)) {
+            unset($cart[$verwijderItemID]);
+            updateCart($cart);
+        }
+    }
+}
+
+function toevoegen($cart){
+//Als er post plaatsvindt bij de plus knop neemt het aantal met 1 toe
+    if (isset($_POST["toevoegen"])) {
+        $toevoegenItemID = $_POST["toevoegen"];
+
+        if (array_key_exists($toevoegenItemID, $cart)) {
+            $cart[$toevoegenItemID] += 1;
+        } else {
+            $cart[$toevoegenItemID] = 1;
+        }
+        updateCart($cart);
+    }
+}
+
+
+function favorite(){
+
+}
+
+
