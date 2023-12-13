@@ -1,13 +1,12 @@
 <?php
+//Hier wordt de basis css van de webshop verkregen
 include __DIR__ . "/header.php";
-include "cartfuncties.php";
-include "betalenFuncties.php";
 
-if (isset($_GET["id"])) {
-    $stockItemID = $_GET["id"];
-} else {
-    $stockItemID = 0;
-}
+//Hier worden de functies van het winkelwagen verkregen voor het berekenen van prijzen
+include "cartfuncties.php";
+
+//Hier worden de functies voor het aanpassen van de aantallen verkregen
+include "betalenFuncties.php";
 
 //Refreshed de pagina op het moment dat er een post plaats vindt
 //De pagina wordt direct gerefreshed als er post plaatsvindt.
@@ -44,30 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            background-color: #fff;
-            color: black;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .close {
-            float: right;
-            cursor: pointer;
-        }
         .titel {
             text-align: center;
             border: 1px solid #FFFFFF;
@@ -137,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 15px;
             font-size: 18px;
             color: #FFFFFF;
-            width: 60%;
+            width: 100%;
         }
 
         button.fas.fa-id-card:hover {
@@ -204,24 +179,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .grid-container .fa-credit-card-alt {
             display:inline-block;
         }
-        .container {
-            display: flex;
-            justify-content: space-around;
-        }
         .betalen {
             width: fit-content;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .betalen button {
             width: 100%;
         }
+        
+        .Terug {
+            width: 40%;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+        }
 
     </style>
 </head>
 <body>
-
 <div class="titel">
     <h1>Afrekenen</h1>
 </div>
@@ -234,6 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //Maakt verbinding met de database
                 $connection = connectToDatabase();
 
+                //Zet standaard waarde op 0 om mee te rekenen
                 $totaalPrijs = 0;
                 $brutoprijs = 0;
 
@@ -250,17 +230,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //$productDetails['QuantityOnHand'] haalt de voorraad op uit de database
                     $voorraad = $productDetails['QuantityOnHand'];
 
+                    //Berekent de bruto prijs per stuk
                     $brutoPrijsPerStuk = 0.79 * $productDetails['SellPrice'];
+
+                    //Berekent de bruto prijs totaal per artikel
                     $brutoTotaalprijs = $brutoPrijsPerStuk * $aantal;
 
+                    //Berekent Btw prijs per stuk
                     $BtwPrijsPerStuk = 0.21 * $productDetails['SellPrice'];
+
+                    //Berekent Btw prijs totaal per artikel
                     $BtwTotaalPrijs = $BtwPrijsPerStuk * $aantal;
 
+                    //Berekent Totaalprijs door bruto en btw bij elkaar op te tellen
                     $totaalPrijs += $brutoTotaalprijs + $BtwTotaalPrijs;
                 }
                 //Rondt de totaalprijs af op 2 decimalen
                 $totaalPrijs = number_format($totaalPrijs, 2);
+
+                //Rondt de brutototaalprijs af op 2 decimalen
                 $BrutoTotaalprijs = number_format($brutoTotaalprijs, 2);
+
+                // Rondt de Btwtotaalprijs af op 2 decimalen
                 $BTW = number_format($BtwTotaalPrijs, 2);
                 ?>
 
@@ -269,6 +260,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>NAW-Gegevens</h1>
         <div id="boxNAW">
             <form id="NAW-Gegevens" method="post">
+                <div class='center'>
+
+<!--            In deze tabel worden klantgegevens opgeslagen-->
+<!--            De gegevens worden opgeslagen als er een post plaats vindt-->
+<!--            De bezoeker krijgt een pop-up als de gegevens zijn opgeslagen-->
+<!--            De klant kan zijn gegevens aanpassen indien nodig-->
                 <table class="Naw Table">
                     <tr>
                         <th><label for="FirstName">Voornaam</label></th>
@@ -311,33 +308,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <td>
                             <form class="post">
-                            <button name="opslaan" type="submit" value="Submit" class="fas fa-id-card"> Opslaan</button>
+                                <button name="opslaan" type="submit" value="Submit" class="fas fa-id-card"> Opslaan</button>
                             </form>
                         </td>
                     </tr>
                     </tbody>
 
                 </table>
-
+                </div>
             </form>
         </div>
 
         <?php
+        //Contreleert of er een post plaats vindt bij Opslaan
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-
+            //In deze variabele wordt de straatnaam opgeslagen
             $DeliveryStreet = $_POST["yu_DeliveryAdressLine2"];
+
+            //In deze variabele wordt het huisnummer opgeslagen
             $DeliveryNumber = $_POST["xu_DeliveryAdressLine2"];
+
+            //In deze variabele wordt het postcode opgeslagen
             $PostalCode = $_POST["PostalPostalCode"];
+
+            //In deze variabele wordt het land opgeslagen
             $Country = $_POST["land"];
 
+            //In deze variabele wordt de voornaam opgeslagen met hoofdletters
             $FirstName = ucfirst($_POST["FirstName"]);
+
+            //In deze variabele wordt de achternaam opgeslagen met hoofdletters
             $Lastname = ucfirst($_POST["LastName"]);
+
+            //In deze variabele wordt de achternaam opgeslagen met hoofdletters
             $Tussenvoegsel = ucfirst($_POST["Tussenvoegsel"]);
+
+            //In deze variabele wordt het telefoonnummer opgeslagen
             $PhoneNumber = $_POST["PhoneNumber"];
+
+            //In deze variabele wordt het Email-adrs opgeslagen
             $EmailAdress = $_POST["Email"];
 
-
+            //In deze variabele wordt de straatnaam en huisnummer samengevoegd als adres
             $DeliveryAdressLine2 = $DeliveryStreet . ' ' . $DeliveryNumber;
 
             //Als de bezoeker een tussenvoegsel invult zal deze worden toegevoegd bij de volledige naam
@@ -348,6 +361,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $Fullname = ($FirstName . " " . $Tussenvoegsel . " " . $Lastname);
             }
 
+            //In deze query wordt de Volledige naam, adres en Emailadres opgeslagen in de database
             addCustomer($Fullname, $DeliveryAdressLine2, $EmailAdress,$connection);
         }
       ?>
@@ -357,48 +371,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Bestelling</h1>
         <div class="totaalPrijs">
             <h3>Totaalprijs:</h3>
+
+            <!--Hier wordt de prijs getoond van alles, Brutoproducten + Btw + verzendkosten-->
             <h4>€<?php print($totaalPrijs) ?></h4>
         </div>
         <hr>
 
+        <!--Hier wordt de brutprijs getoond van alle artikelen-->
        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
            <h6>Brutoprijs:</h6>
            <h6 style="margin-left: auto;"><?php print("€". $BrutoTotaalprijs)?></h6>
        </div>
 
+        <!--Hier wordt de btw prijs getoond van alle artikelen-->
        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
            <h6>BTW:</h6>
            <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
        </div>
 
+        <!--Hier wordt de Verzondkosten van de bestelling getoond-->
       <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
           <h6>Verzendkosten:</h6>
-          <h6 style="margin-left: auto;"><?php echo ("€" . 0.00) ?></h6>
+          <h6 style="margin-left: auto;"><?php print("€" . 0.00) ?></h6>
       </div>
 
+        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+            <h6>Punten:</h6>
+            <h6 style="margin-left: auto;"><?php print("€-" . 0.00) ?></h6>
+        </div>
+
+<!--        <div class="Terug">-->
+<!--            <form action="winkelmandje.php">-->
+<!--                    <button type="submit" name="afrekenen" class="fa fa-shopping-cart" id="AfrekenenKnop"></button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+        <!--Deze knop lijdt naar de betaalpagina-->
         <div class="betalen">
             <form action="iDealdemopagina.php">
                 <button type="submit" name="afrekenen" class="fa fa-credit-card-alt" id="AfrekenenKnop"> Ideal</button>
             </form>
         </div>
     </div>
-
-    <?php
-    if(isset($_POST["afrekenen"])) {
-        addOrder();
-    }
-
-    ?>
-
-<div id="popup" class="popup">
-    onclick="openPopup()"
-    <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <p>Uw gegevens zijn opgeslagen</p>
-    </div>
-</div>
-
-<script src="scripts.js"></script>
 
 </body>
 </html>

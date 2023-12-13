@@ -16,28 +16,22 @@ function saveCart($cart)
     $_SESSION["cart"] = $cart;                  // werk de "gedeelde" $_SESSION["cart"] bij met de meegestuurde gegevens
 }
 
-function addProductToCart($stockItemID)
+function addProductToCart($stockItemID, $quantity = 1)
 {
-    $cart = getCart();                          // eerst de huidige cart ophalen
+    $cart = getCart();  // Eerst de huidige winkelwagen ophalen
 
-    if (array_key_exists($stockItemID, $cart)) {  //controleren of $stockItemID(=key!) al in array staat
-        $cart[$stockItemID] += 1;                   //zo ja:  aantal met 1 verhogen
+    if (array_key_exists($stockItemID, $cart)) {
+        // Controleren of $stockItemID al in de winkelwagen staat
+        $cart[$stockItemID] += $quantity;  // Zo ja: het aantal met $quantity verhogen
     } else {
-        $cart[$stockItemID] = 1;                    //zo nee: key toevoegen en aantal op 1 zetten.
+        $cart[$stockItemID] = $quantity;   // Zo nee: key toevoegen en het aantal op $quantity zetten.
     }
 
-    saveCart($cart);                            // werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte cart
+    saveCart($cart);  // Werk de "gedeelde" $_SESSION["cart"] bij met de bijgewerkte winkelwagen
 }
 
 function updateCart($cart) {
     $_SESSION['cart'] = $cart; // Set the updated cart in the session
-}
-
-function totaalPrijs($aantal, $afgerondePrijs){
-    $totaalPrijs = 0;
-    $totaalPrijs += ($aantal * $afgerondePrijs);
-    $totaalPrijs = number_format($totaalPrijs, 2);
-    return $totaalPrijs;
 }
 
 function totaalPrijsPerProduct($aantal, $afgerondePrijs){

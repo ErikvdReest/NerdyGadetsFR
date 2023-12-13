@@ -1,4 +1,3 @@
-<!-- dit bestand bevat alle code voor de pagina die één product laat zien -->
 <?php
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
@@ -86,24 +85,42 @@ if (isset($_GET["id"])) {
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
-            <div class="QuantityText"><?php print $StockItem['QuantityOnHand']; ?></div>
-            <div id="StockItemHeaderLeft">
-                <p class="StockItemPriceText" style="margin-top: 100px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
+            <div class="QuantityText"><?php print "voorraad: ". $StockItem['QuantityOnHand']; ?></div>
+            <div id="StockItemHeaderLeft" class="Prijs">
+                <p class="StockItemPriceText" style="margin-top: 60px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                 <h6> Inclusief BTW </h6>
 
-<!--                <form method="post" action="">-->
-<!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
-<!--                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">-->
-<!--                        <i class="fas fa-heart"> Favorieten</i>-->
-<!--                    </button>-->
-<!--                </form>-->
+                <!--                <form method="post" action="">-->
+                <!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
+                <!--                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">-->
+                <!--                        <i class="fas fa-heart"> Favorieten</i>-->
+                <!--                    </button>-->
+                <!--                </form>-->
 
                 <form method="post" action="" >
                     <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                    <button type="submit" name="submit" style="margin-top: 65px; background-color: transparent; border: 1px solid white; border-radius: 10px; padding: 10px; font-size: 18px; color: white;">
-                        <i class="fas fa-shopping-cart"></i> In Winkelmandje
-                    </button>
+                        <button type="submit" name="submit" style="margin-top: 55px; background-color: transparent; border: 1px solid white; border-radius: 10px; padding: 10px; font-size: 18px; color: white;">
+                            <i class="fas fa-shopping-cart"></i> Toevoegen Winkelwagen
+                        </button>
+                    <div class="toevoegenWinkelwagen">
+                        <input type="number" name="aantal" placeholder="aantal:                                 " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required style="text-align: right; margin-top: 10px">
+                    </div>
                 </form>
+
+                <style>
+                    .toevoegenWinkelwagen input {
+                        border: 1px solid white;
+                        background-color: transparent;
+                        border-radius: 10px;
+                        padding: 10px;
+                        font-size: 18px;
+                        color: white;
+                        width: 10%
+                        margin-top: 10px;
+                        text-align: right;
+                        margin-bottom: 20px;
+                    }
+                </style>
 
                 <div class="CenterPriceLeft">
                     <div class="CenterPriceLeftChild" style="margin-top: 0px">
@@ -114,11 +131,10 @@ if (isset($_GET["id"])) {
         </div>
 
         <?php
-
-        
         if (isset($_POST["submit"])) {
             $stockItemID = $_POST["stockItemID"];
-            addProductToCart($stockItemID);
+            $aantal = isset($_POST["aantal"]) ? intval($_POST["aantal"]) : 1;
+            addProductToCart($stockItemID, $aantal);
         }
 
         if (isset($_POST["submitfavorit"])) {

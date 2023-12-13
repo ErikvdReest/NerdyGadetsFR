@@ -46,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: left;
             background-color: transparent;
             border-radius: 20px;
-
         }
 
         .transparent-button-min {
@@ -106,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              background-color: rgba(255, 165, 0, 1);
          }
          .transparent-button {
-             margin-left: 10px;
              background-color: transparent;
              border: none;
              padding: 0;
@@ -133,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          .delete-button:hover {
              color: #FF0000; /* Rode kleur bij hover voor verwijderknop */
          }
+
 
 
     </style>
@@ -175,7 +174,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 // Toont de prijs en totaalprijs van het aantal producten
                 print("<p>Prijs: €" . totaalPrijsPerProduct($aantal,$afgerondePrijs) . "</p>");
                 // Toont de voorraad
-                print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
+                print("<p>" . "Voorraad: ". $productDetails['QuantityOnHand'] . "</p>");
 
                 print("</div>");
                 print("<div class='aantal'>");
@@ -187,7 +186,6 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button-plus fas fa-plus'></button>");
                 print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button-min fas fa-minus'></button>");
                 print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
-//                print("<button type='submit' name='favorieten' value='$Artikelnummer' style='color: #FFFFFF; background: transparent; border: none;' class='fas fa-heart'></button>");
                 print("</div>");
                 print("</form>");
                 print("</div>");
