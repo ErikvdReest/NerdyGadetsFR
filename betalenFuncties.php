@@ -74,20 +74,20 @@ function addOrder ($connection){
 //De Orderlines wordt aan een Order gekoppeld met max(OrderId) dit is de laatste order
 function addOrderlines($connection, $aantal, $prijsPerProduct, $beschrijving, $Artikelnummer){
     $query = " 
-    INSERT INTO orderlines(OrderID,StockItemID, Description, PackagetypeID, Quantity, Unitprice, TaxRate, PickedQuantity, PickingCompletedWhen, lastEditedBy, LastEditedWhen)
+    INSERT INTO orderlines (OrderID, StockItemID, Description, PackagetypeID, Quantity, Unitprice, TaxRate, PickedQuantity, PickingCompletedWhen, lastEditedBy, LastEditedWhen)
     VALUES (
-            73586,
-            11, 
-            'da', 
-            7, 
-            11, 
-           11, 
-            15.000, 
-            11, 
-            '2016-05-31 11:00:00', 
-            4, 
-            '2016-05-31 11:00:00'
-            );
+        (SELECT OrderID FROM orders ORDER BY OrderID DESC LIMIT 1),
+        '$Artikelnummer',
+        '$beschrijving',
+        7,
+        '$aantal',
+        '$prijsPerProduct',
+        15.000,
+        '$aantal',
+        '2016-05-31 11:00:00',
+        4,
+        '2016-05-31 11:00:00'
+    );
        ";
     mysqli_query($connection, $query);
 }

@@ -20,32 +20,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title >Winkelwagen</title>
     <style>
-         h1 {
-             text-align: center;
-             border: 1px solid #FFFFFF;
-             padding: 10px;
-             width: 100%;
-             border-radius: 20px;
-         }
+        .grid-container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        h1 {
+            text-align: center;
+            border: 1px solid #FFFFFF;
+            padding: 10px;
+            width: 100%;
+            border-radius: 20px;
+        }
 
         .product {
-            display: inline-block;
-            margin-top: 5px;
-            width: 55%;
+            margin-top: 10px;
+            width: 78%;
             padding: 15px;
             border: 1px solid #FFFFFF;
-            margin-left: 20px;
-            border-radius: 20px;
-
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex: 2;
         }
+
+        .bestelling {
+            border: 1px solid #FFFFFF;
+            border-radius: 30px;
+            margin-top: 10px;
+            text-align: left;
+            flex: 1;
+            width: 50%;
+            margin-right: 10px;
+            padding: 15px;
+            align-items: center;
+        }
+        .bestelling h1 {
+            text-align: center;
+        }
+
+        .bestelling hr {
+            border: none;
+            border-top: 2px solid white;
+            margin: 5px 0;
+        }
+
         .aantal {
             display: inline-block;
             width: 20%;
-            border: 1px solid #FFFFFF;
+            border: 1px SOLID lightslategray;
             padding: 20px;
             text-align: left;
             background-color: transparent;
             border-radius: 20px;
+        }
+
+        .aantal input {
+            text-align: right;
+            width: 100%;
+            border: 1px SOLID lightslategray;
+            background-color: transparent;
+            color: #FFFFFF;
         }
 
         .transparent-button-min {
@@ -54,23 +91,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: white;
         }
 
-         .transparent-button-plus {
-             margin-top: 10px;
-             margin-left: 20px;
-             background: transparent;
-             border: none;
-             color: white;
-         }
+        .transparent-button-plus {
+            margin-top: 10px;
+            margin-left: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+        }
 
         h2, p {
             text-align: left;
-        }
-
-        .product {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
         }
 
         .product-info {
@@ -83,61 +113,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #FFFFFF;
         }
 
-        .prijs {
-            text-align: right;
-            margin-right: 300px;
-        }
         .image {
             margin-top: 15px;
             margin-left: 10px;
 
         }
-         #AfrekenenKnop {
-             background-color: transparent;
-             border: 1px solid #FFFFFF;
-             border-radius: 10px;
-             padding: 15px;
-             font-size: 18px;
-             color: #FFFFFF;
-         }
+        #AfrekenenKnop {
+            background-color: transparent;
+            border: 1px solid #FFFFFF;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 18px;
+            color: #FFFFFF;
+        }
 
-         #AfrekenenKnop:hover {
-             background-color: rgba(255, 165, 0, 1);
-         }
-         .transparent-button {
-             background-color: transparent;
-             border: none;
-             padding: 0;
-             font-size: 16px;
-             color: #FFFFFF;
-             cursor: pointer;
-         }
+        #AfrekenenKnop:hover {
+            background-color: rgba(255, 165, 0, 1);
+        }
+        .transparent-button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            font-size: 16px;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
 
-         .transparent-button-plus:hover {
-             color: #00FF00; /* Groene kleur bij hover alleen voor plusknop */
-         }
-         .transparent-button-min:hover {
-             color: orange;
-         }
+        .transparent-button-plus:hover {
+            color: #00FF00;
+        }
+        .transparent-button-min:hover {
+            color: orange;
+        }
 
-         .delete-button {
-             margin-left: 10px;
-             background-color: transparent;
-             border: none;
-             padding: 0;
-             cursor: pointer;
-         }
+        .delete-button {
+            margin-left: 10px;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
 
-         .delete-button:hover {
-             color: #FF0000; /* Rode kleur bij hover voor verwijderknop */
-         }
-
-
+        .delete-button:hover {
+            color: #FF0000;
+        }
+        .totaalPrijs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .totaalPrijs h3, .totaalPrijs h4 {
+            margin: 0;
+        }
+        .rand {
+            border: 1px SOLID transparent;
+            flex: auto;
+            margin-right: -60px;
+            max-width: 1200px;
+        }
+        .betalen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
 
     </style>
 </head>
 <body>
-<h1>Winkelmandje</h1>
+<h1>Winkelwagen</h1>
+
+<div class="grid-container">
+    <div class="rand">
 
 
 <?php
@@ -146,6 +193,11 @@ $connection = connectToDatabase();
 $totaalPrijs = 0;
 $aantalProducten = 0;
 $afgerondePrijs = 0;
+$brutoTotaalprijs = 0;
+$BTW = 0;
+$brutoPrijsPerStuk = 0;
+$BtwPrijsPerStuk = 0;
+$BtwTotaalPrijs = 0;
 
 //Toont de array $cart met artikelnummer als index//
 foreach ($cart as $Artikelnummer => $aantal) {
@@ -190,30 +242,79 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("</form>");
                 print("</div>");
                 print("</div>");
+                print("</div>");
+
+                //Berekent de bruto prijs per stuk
+                $bruto = (0.79 * $productDetails['SellPrice']);
+
+                $brutoPrijsPerStuk += $bruto;
+
+                $Btw = (0.21 * $productDetails['SellPrice']);
+
+                //Berekent Btw prijs per stuk
+                $BtwPrijsPerStuk += $Btw;
+
+                //Berekent de bruto prijs totaal per artikel
+                $brutoTotaalprijs += $brutoPrijsPerStuk * $aantal;
+
+                //Berekent Btw prijs totaal per artikel
+                $BtwTotaalPrijs += $BtwPrijsPerStuk * $aantal;
+
+                $totaalPrijs += ($aantal * $afgerondePrijs);
+
             }
             $aantalProducten += ($aantal);
-            $totaalPrijs += ($aantal * $afgerondePrijs);
+
         }
 }
+//Rondt de totaalprijs af op 2 decimalen
+$totaalPrijs = number_format($totaalPrijs, 2);
+
+$brutoTotaalprijs = number_format($brutoTotaalprijs,2);
+
+$BTW = number_format($BtwTotaalPrijs, 2);
+
+
 update($cart);
 verminderen($cart);
 verwijderen($cart);
 toevoegen($cart);
-
-
 ?>
+    </div>
+<div class="bestelling">
+    <h1>Bestelling</h1>
+    <div class="totaalPrijs">
+        <h3>Totaalprijs:</h3>
+        <!--Hier wordt de prijs getoond van alles, Brutoproducten + Btw + verzendkosten-->
+        <h4>€<?php print($totaalPrijs) ?></h4>
+    </div>
+    <hr>
 
-<div class="prijs">
-    <div class="box">
-        <h6>Subtotaal:</h6>
-        <h1><?php $totaalPrijs = number_format($totaalPrijs, 2);   ?></h1>
-        <h9><?php print("€".$totaalPrijs) ?></h9>
-        <hr>
-        <h7>Artikelen:</h7>
-        <h10> <?php print($aantalProducten) ?></h10>
-        <h8>Totaalprijs</h8>
-        <div class="NaarKassa"></div>
+    <!--Hier wordt de brutprijs getoond van alle artikelen-->
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>Brutoprijs:</h6>
+        <h6 style="margin-left: auto;"><?php print("€". $brutoTotaalprijs)?></h6>
+    </div>
 
+    <!--Hier wordt de btw prijs getoond van alle artikelen-->
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>BTW:</h6>
+        <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
+    </div>
+
+    <!--Hier wordt de Verzondkosten van de bestelling getoond-->
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>Verzendkosten:</h6>
+        <h6 style="margin-left: auto;"><?php print("€" . 0.00) ?></h6>
+    </div>
+
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>Punten:</h6>
+        <h6 style="margin-left: auto;"><?php print("€-" . 0.00) ?></h6>
+    </div>
+
+    <!--Deze knop lijdt naar de betaalpagina-->
+    <div class="betalen">
         <form action="afrekenen.php" method="post">
             <?php if ($aantalProducten > 0): ?>
                 <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
@@ -221,8 +322,8 @@ toevoegen($cart);
                 <button type="button" id="AfrekenenKnop" disabled>Naar de kassa</button>
             <?php endif; ?>
         </form>
-
     </div>
+</div>
 </div>
 
 </body>

@@ -103,7 +103,7 @@ if (isset($_GET["id"])) {
                             <i class="fas fa-shopping-cart"></i> Toevoegen Winkelwagen
                         </button>
                     <div class="toevoegenWinkelwagen">
-                        <input type="number" name="aantal" placeholder="aantal:                                 " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required style="text-align: right; margin-top: 10px">
+                        <input type="number" name="aantal" placeholder="aantal:                                       " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required style="text-align: right; margin-top: 10px"  >
                     </div>
                 </form>
 
@@ -113,7 +113,6 @@ if (isset($_GET["id"])) {
                         background-color: transparent;
                         border-radius: 10px;
                         padding: 10px;
-                        font-size: 18px;
                         color: white;
                         width: 10%
                         margin-top: 10px;

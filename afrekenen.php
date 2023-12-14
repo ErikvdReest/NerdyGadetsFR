@@ -207,53 +207,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="grid-container">
     <?php
-                //Haalt de producten uit het winkelwagen op.
-                $cart = getCart();
+    $totaalPrijs = 0;
+    $aantalProducten = 0;
+    $afgerondePrijs = 0;
+    $brutoTotaalprijs = 0;
+    $BTW = 0;
+    $brutoPrijsPerStuk = 0;
+    $BtwPrijsPerStuk = 0;
+    $BtwTotaalPrijs = 0;
 
-                //Maakt verbinding met de database
-                $connection = connectToDatabase();
+    //Haalt de producten uit het winkelwagen op.
+    $cart = getCart();
 
-                //Zet standaard waarde op 0 om mee te rekenen
-                $totaalPrijs = 0;
-                $brutoprijs = 0;
+    //Maakt verbinding met de database
+    $connection = connectToDatabase();
 
-                //Voor ieder product in het winkelwagen wordt deze foreach uitgevoerd
-                foreach ($cart as $Artikelnummer => $aantal) {
+    //Zet standaard waarde op 0 om mee te rekenen
+    $totaalPrijs = 0;
+    $brutoprijs = 0;
 
-                    //Haalt de gegevens van het product op
-                    $productDetails = getStockItem($Artikelnummer, $connection);
+    //Voor ieder product in het winkelwagen wordt deze foreach uitgevoerd
+    foreach ($cart as $Artikelnummer => $aantal) {
 
-                    // Rond de prijs op twee decimalen af
-                    //$productDetails['SellPrice'] haalt de prijs van het product op uit de database
-                    $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
+        //Haalt de gegevens van het product op
+        $productDetails = getStockItem($Artikelnummer, $connection);
 
-                    //$productDetails['QuantityOnHand'] haalt de voorraad op uit de database
-                    $voorraad = $productDetails['QuantityOnHand'];
+        // Rond de prijs op twee decimalen af
+        //$productDetails['SellPrice'] haalt de prijs van het product op uit de database
+        $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
 
-                    //Berekent de bruto prijs per stuk
-                    $brutoPrijsPerStuk = 0.79 * $productDetails['SellPrice'];
+        //Berekent de bruto prijs per stuk
+        $brutoPrijsPerStuk += (0.79 * $productDetails['SellPrice']);
 
-                    //Berekent de bruto prijs totaal per artikel
-                    $brutoTotaalprijs = $brutoPrijsPerStuk * $aantal;
+        //Berekent Btw prijs per stuk
+        $BtwPrijsPerStuk += (0.21 * $productDetails['SellPrice']);
 
-                    //Berekent Btw prijs per stuk
-                    $BtwPrijsPerStuk = 0.21 * $productDetails['SellPrice'];
+        //Berekent de bruto prijs totaal per artikel
+        $brutoTotaalprijs += $brutoPrijsPerStuk * $aantal;
 
-                    //Berekent Btw prijs totaal per artikel
-                    $BtwTotaalPrijs = $BtwPrijsPerStuk * $aantal;
+        //Berekent Btw prijs totaal per artikel
+        $BtwTotaalPrijs += $BtwPrijsPerStuk * $aantal;
 
-                    //Berekent Totaalprijs door bruto en btw bij elkaar op te tellen
-                    $totaalPrijs += $brutoTotaalprijs + $BtwTotaalPrijs;
-                }
-                //Rondt de totaalprijs af op 2 decimalen
-                $totaalPrijs = number_format($totaalPrijs, 2);
+    }
+    //Berekent Totaalprijs door bruto en btw bij elkaar op te tellen
+    $totaalPrijs += $brutoTotaalprijs + $BtwTotaalPrijs;
 
-                //Rondt de brutototaalprijs af op 2 decimalen
-                $BrutoTotaalprijs = number_format($brutoTotaalprijs, 2);
+    $brutoTotaalprijs = number_format($brutoTotaalprijs,2);
 
-                // Rondt de Btwtotaalprijs af op 2 decimalen
-                $BTW = number_format($BtwTotaalPrijs, 2);
-                ?>
+    $BTW = number_format($BtwTotaalPrijs, 2);
+
+    //Rondt de totaalprijs af op 2 decimalen
+    $totaalPrijs = number_format($totaalPrijs, 2);
+    ?>
 
 
     <div class="gegevens">
@@ -380,7 +385,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!--Hier wordt de brutprijs getoond van alle artikelen-->
        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
            <h6>Brutoprijs:</h6>
-           <h6 style="margin-left: auto;"><?php print("€". $BrutoTotaalprijs)?></h6>
+           <h6 style="margin-left: auto;"><?php print("€". $brutoTotaalprijs)?></h6>
        </div>
 
         <!--Hier wordt de btw prijs getoond van alle artikelen-->
