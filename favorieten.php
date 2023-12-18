@@ -13,6 +13,7 @@ include "favorietenfuncties.php";
             border: 1px solid #FFFFFF;
             padding: 10px;
             width: 100%;
+            border-radius: 20px;
         }
 
 
@@ -30,6 +31,7 @@ foreach ($favorites as $Artikelnummer => $aantal ) {
 
     $productDetails = getStockItem($Artikelnummer, $connection);
 
+
     if ($productDetails) {
         print("<div class='product'>");
         print("<div class='product-info'>");
@@ -40,9 +42,28 @@ foreach ($favorites as $Artikelnummer => $aantal ) {
         print("<p>Prijs: €" . $afgerondePrijs . "</p>");
         //Toont de voorraad
         print("<p>" . $productDetails['QuantityOnHand'] . "</p>");
+        $productbeschrijving = productDetails['StockItemName'];
     }
 
 }
+function addfavorietenlijst ($productbeschrijving,$artikelnummer)
+{
+    $query = "
+    INSERT INTO favorieten ()
+    VALUES (
+            $productbeschrijving,
+            $artikelnummer,
+            
+            
+            
+            
+    )
+    ";
+}
+
 ?>
+
+
+
 </body>
 </html>

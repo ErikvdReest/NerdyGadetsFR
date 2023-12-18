@@ -87,37 +87,77 @@ if (isset($_GET["id"])) {
             </h2>
             <div class="QuantityText"><?php print "voorraad: ". $StockItem['QuantityOnHand']; ?></div>
             <div id="StockItemHeaderLeft" class="Prijs">
-                <p class="StockItemPriceText" style="margin-top: 60px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
+                <p class="StockItemPriceText" style="margin-top: 70px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
+                <?php
+                $puntenAantal = $StockItem['SellPrice'];
+                $puntenAantal = number_format($puntenAantal,0)
+
+                ?>
+                <h5><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h5>
                 <h6> Inclusief BTW </h6>
 
-                <!--                <form method="post" action="">-->
-                <!--                    <input type="number" name="stockItemID" value="--><?php //print($stockItemID) ?><!--" hidden>-->
-                <!--                    <button type="submit" name="submitfavorit" id="Toevoegen" style="margin-top: 75px;">-->
-                <!--                        <i class="fas fa-heart"> Favorieten</i>-->
-                <!--                    </button>-->
-                <!--                </form>-->
 
-                <form method="post" action="" >
-                    <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                        <button type="submit" name="submit" style="margin-top: 55px; background-color: transparent; border: 1px solid white; border-radius: 10px; padding: 10px; font-size: 18px; color: white;">
-                            <i class="fas fa-shopping-cart"></i> Toevoegen Winkelwagen
-                        </button>
-                    <div class="toevoegenWinkelwagen">
-                        <input type="number" name="aantal" placeholder="aantal:                                       " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required style="text-align: right; margin-top: 10px"  >
-                    </div>
-                </form>
+                    <form method="post" >
+                        <div class="favoriet">
+                            <button type="submit" name="favoriet">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                <div class="winkelwagenBorder">
+                    <form method="post" action="">
+                        <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
+                        <div class="button-container">
+                            <button type="submit" name="submit">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                        <div class="toevoegenWinkelwagen">
+                            <input type="number" name="aantal" placeholder="aantal:         " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required>
+                        </div>
+                    </form>
+                </div>
 
                 <style>
+                    /*.winkelwagenBorder {*/
+                    /*    border: 1px solid white;*/
+                    /*    display: flex;*/
+                    /*    align-items: center;*/
+                    /*}*/
+
+                    .button-container {
+                        flex: 0 0 auto;
+                        margin-top: 15px;
+                    }
+
+                    button {
+                        background-color: transparent;
+                        border: 1px solid white;
+                        border-radius: 10px;
+                        padding: 10px;
+                        font-size: 18px;
+                        color: white;
+                    }
+
+                    button:hover {
+                        background-color: rgba(0, 0, 255, 0.5);
+                    }
+
+                    .toevoegenWinkelwagen {
+                        flex: 1;
+                        margin-top: 10px;
+                        margin-left: 10px; /* Add a margin to separate the input from the button */
+                    }
+
                     .toevoegenWinkelwagen input {
                         border: 1px solid white;
                         background-color: transparent;
                         border-radius: 10px;
                         padding: 10px;
                         color: white;
-                        width: 10%
-                        margin-top: 10px;
+                        width: 100%;
                         text-align: right;
-                        margin-bottom: 20px;
                     }
                 </style>
 
@@ -136,10 +176,12 @@ if (isset($_GET["id"])) {
             addProductToCart($stockItemID, $aantal);
         }
 
-        if (isset($_POST["submitfavorit"])) {
-            $stockItemID = $_POST["stockItemID"];
-            addProductToFavorit($stockItemID);
-        }
+//        if (isset($_POST['submit'])) {
+//            $stockItemID = $_POST["stockItemID"];
+//            $aantal = isset($_POST["aantal"]) ? intval($_POST["aantal"]) : 1;
+//            addProductToFavorit($stockItemID);
+//        }
+
         ?>
 
 

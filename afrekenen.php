@@ -188,15 +188,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .betalen button {
             width: 100%;
         }
-        
-        .Terug {
-            width: 40%;
-        }
 
         .center {
             display: flex;
             justify-content: center;
         }
+
+
 
     </style>
 </head>
@@ -212,9 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $afgerondePrijs = 0;
     $brutoTotaalprijs = 0;
     $BTW = 0;
-    $brutoPrijsPerStuk = 0;
-    $BtwPrijsPerStuk = 0;
-    $BtwTotaalPrijs = 0;
+    $puntenAantal = 0;
 
     //Haalt de producten uit het winkelwagen op.
     $cart = getCart();
@@ -236,28 +232,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //$productDetails['SellPrice'] haalt de prijs van het product op uit de database
         $afgerondePrijs = number_format($productDetails['SellPrice'], 2);
 
-        //Berekent de bruto prijs per stuk
-        $brutoPrijsPerStuk += (0.79 * $productDetails['SellPrice']);
+        $totaalPrijs += ($aantal * $afgerondePrijs);
 
-        //Berekent Btw prijs per stuk
-        $BtwPrijsPerStuk += (0.21 * $productDetails['SellPrice']);
-
-        //Berekent de bruto prijs totaal per artikel
-        $brutoTotaalprijs += $brutoPrijsPerStuk * $aantal;
-
-        //Berekent Btw prijs totaal per artikel
-        $BtwTotaalPrijs += $BtwPrijsPerStuk * $aantal;
-
+        $puntenAantal += ($aantal * $afgerondePrijs);
     }
-    //Berekent Totaalprijs door bruto en btw bij elkaar op te tellen
-    $totaalPrijs += $brutoTotaalprijs + $BtwTotaalPrijs;
+    $brutoTotaalprijs = $totaalPrijs * 0.79;
 
-    $brutoTotaalprijs = number_format($brutoTotaalprijs,2);
-
-    $BTW = number_format($BtwTotaalPrijs, 2);
+    $BTW = $totaalPrijs - $brutoTotaalprijs;
 
     //Rondt de totaalprijs af op 2 decimalen
     $totaalPrijs = number_format($totaalPrijs, 2);
+
+    $brutoTotaalprijs = number_format($brutoTotaalprijs,2);
+
+    $BTW = number_format($BTW, 2);
+
     ?>
 
 
@@ -400,16 +389,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <h6 style="margin-left: auto;"><?php print("€" . 0.00) ?></h6>
       </div>
 
+        <?php
+        $puntenAantal = number_format($puntenAantal,0)
+
+        ?>
         <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
             <h6>Punten:</h6>
-            <h6 style="margin-left: auto;"><?php print("€-" . 0.00) ?></h6>
+            <h6 style="margin-left: auto"><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h6>
         </div>
-
-<!--        <div class="Terug">-->
-<!--            <form action="winkelmandje.php">-->
-<!--                    <button type="submit" name="afrekenen" class="fa fa-shopping-cart" id="AfrekenenKnop"></button>-->
-<!--            </form>-->
-<!--        </div>-->
 
         <!--Deze knop lijdt naar de betaalpagina-->
         <div class="betalen">
@@ -417,6 +404,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" name="afrekenen" class="fa fa-credit-card-alt" id="AfrekenenKnop"> Ideal</button>
             </form>
         </div>
+
     </div>
 
 </body>

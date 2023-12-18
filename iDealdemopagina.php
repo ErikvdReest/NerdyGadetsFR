@@ -129,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         $cart = getCart();
         $connection = connectToDatabase();
+        $puntenAantal = 0;
 
         addOrder($connection);
 
@@ -151,6 +152,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 unset($_SESSION['cart']);
             }
             addOrderlines($connection,$aantal,$prijsPerProduct,$beschrijving,$Artikelnummer);
+
+            $puntenAantal += ($aantal * $afgerondePrijs);
+
+            addPunten ($puntenAantal);
         }
         ?>
 

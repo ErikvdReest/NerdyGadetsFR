@@ -124,5 +124,12 @@ function opvragenBestellinggegevens($connection){
      ";
     mysqli_query($connection, $query);
 }
-
-
+function addPunten ($puntenAantal,$connection){
+    $query = " 
+    INSERT INTO customers (punten)
+    VALUES ($puntenAantal)
+    ORDER BY CustomerID DESC
+    LIMIT 1;
+    ";
+    mysqli_query($connection, $query);
+}
