@@ -586,3 +586,34 @@ ul#ul-class-price li {
     display: block;
     content:'';
 }
+.inloggen_account {
+    display: flex;
+    justify-content: left;
+    padding: 20px;
+}
+
+.form-container form {
+    margin-right: 20px;
+}
+
+.form-separator {
+    border-left: 1px solid #ccc;
+    height: 600px;
+    margin-right: 100px;
+    margin-left: 300px;
+}
+
+.inloggen_nieuweklant {
+    display: flex;
+    justify-content:right;
+}
+h10 {
+    margin-top: 40px;
+    position: absolute;
+    font-size: 1.2vw;
+    top:76%;
+    right:18%;
+    z-index: 950;
+    color: #007bff;
+
+}

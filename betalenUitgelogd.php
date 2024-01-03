@@ -3,9 +3,6 @@ include __DIR__ . "/header.php";
 include "betalenFuncties.php";
 include "cartfuncties.php";
 
-if (isset($_SESSION['userData'])) {
-    $userData = $_SESSION['userData'];
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print '<h5>Wij gaan zo snel mogelijk met uw bestelling aan de slag !</h5>';
         print '<div class="naarWinkelwagen">';
@@ -245,60 +242,6 @@ if (isset($_SESSION['userData'])) {
 
             ?>
         </div>
-
-        <div class="rand">
-            <div class="gegevens">
-                <h1>Klant Gegevens</h1>
-                <form id="userInfoForm" action="updateProfile.php" method="post">
-                    <table class="Naw Table">
-                        <tr>
-                            <th><label for="FullName">Volledige naam:  </label></th>
-                            <td><input type="text" name="FullName" id="FullName" value="<?php echo isset($userData['FullName']) ? $userData['FullName'] : ''; ?>" required></td>
-                        </tr>
-
-                        <tr>
-                            <th><label for="Emailadres">E-mailadres</label></th>
-                            <td><input type="text" name="Email" id="Email" value="<?php echo isset($userData['EmailAddress']) ? $userData['EmailAddress'] : ''; ?>" required></td>
-                        </tr>
-
-                        <tr>
-                            <th><label for="PhoneNumber">Telefoonnummer</label></th>
-                            <td><input type="text" name="PhoneNumber" id="PhoneNumber" value="<?php echo isset($userData['PhoneNumber']) ? $userData['PhoneNumber'] : ''; ?>" required></td>
-                        </tr>
-
-                        <tr>
-                            <th><label for="PostalAdressLine2">Stad: </label></th>
-                            <td><input type="text" name="PostalAddressLine2" id="PostalAddressLine2" value="<?php echo isset($userData['PostalAddressLine2']) ? $userData['PostalAddressLine2'] : ''; ?>" required></td>
-                        </tr>
-
-                        <tr>
-                            <th><label for="DeliveryAdressLine21">Straat en Huisnummer: </label></th>
-                            <td><input type="text" name="DeliveryAdressLine2" id="DeliveryAdressLine21" value="<?php echo isset($userData['DeliveryAddressLine2']) ? $userData['DeliveryAddressLine2'] : ''; ?>" required></td>
-
-
-                        </tr>
-                        <th><label for="PostalPostalCode">Postcode: </label></th>
-                        <td><input type="text" name="PostalPostalCode" id="PostalPostalCode" value="<?php echo isset($userData['DeliveryPostalCode']) ? $userData['DeliveryPostalCode'] : ''; ?>" required></td>
-                        </tr>
-
-                        <tr>
-                        <th><label for="Country">Land: </label></th>
-                        <td><input type="text" name="land" id="land" value="<?php echo isset($userData['DeliveryLocation']) ? $userData['DeliveryLocation'] : ''; ?>" required></td>
-
-                        <th></th>
-                        </tr>
-
-                        <tr>
-                        </tr>
-                        </tbody>
-
-                    </table>
-
-                    </form>
-                    </form>
-
-            </div>
-        </div>
     </div>
 </div>
 
@@ -319,7 +262,7 @@ if (isset($_SESSION['userData'])) {
 
     unset($_SESSION['cart']);
     }
-}
+
 ?>
 
 <script>

@@ -5,6 +5,7 @@ include "favorietenfuncties.php";
 
 $StockItem = getStockItem($_GET['id'], $databaseConnection);
 $StockItemImage = getStockItemImage($_GET['id'], $databaseConnection);
+
 ?>
 
 <?php
@@ -16,6 +17,79 @@ if (isset($_GET["id"])) {
 }
 ?>
 
+<?php
+$cart = getCart();
+$connection = connectToDatabase();
+foreach ($cart as $Artikelnummer => $aantal) {
+
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"]) && !isset($_POST["favoriet"])) {
+
+print '<div class="success-message">Uw product is toegevoegd aan de winkelwagen</div>';
+print '<div class="naarWinkelwagen">';
+print '<form action="browse.php">';
+print '<button type="submit" name="submit">';
+print '<i class="fa fa-shopping-bag"> Verder winkelen</i>';
+print '</button>';
+print '</form>';
+print '<form action="winkelmandje.php">';
+print '<button type="submit" name="submit">';
+print '<i class="fas fa-shopping-cart"> Naar winkelwagen</i>';
+print '</button>';
+print '</form>';
+print '</div>';
+print '<hr>';
+}
+?>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] && isset($_POST["favoriet"])) {
+    print '<div class="success-message">Uw product is toegevoegd aan favorieten</div>';
+    print '<div class="naarWinkelwagen">';
+    print '<form action="browse.php">';
+    print '<button type="submit" name="submit">';
+    print '<i class="fa fa-shopping-bag"> Verder winkelen</i>';
+    print '</button>';
+    print '</form>';
+    print '<form action="favorieten.php">';
+    print '<button type="submit" name="submit">';
+    print '<i class="fas fa-heart"> Naar favorieten</i>';
+    print '</button>';
+    print '</form>';
+    print '</div>';
+    print '<hr>';
+}
+?>
+<style>
+    .naarWinkelwagen {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .naarWinkelwagen form {
+        margin-right: 10px;
+    }
+
+    button {
+        background-color: transparent;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 18px;
+        color: white;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: rgba(0, 0, 255, 0.5);
+    }
+    hr {
+        border: 1px SOLID blue;
+    }
+</style>
 <div id="CenteredContent">
     <?php
     if ($StockItem != null) {
@@ -41,7 +115,7 @@ if (isset($_GET["id"])) {
                     <?php
                 } else if (count($StockItemImage) >= 2) { ?>
                     <!-- meerdere plaatjes laten zien -->
-                    <div id="ImageFrame">
+                    <div class="image" id="ImageFrame">
                         <div id="ImageCarousel" class="carousel slide" data-interval="false">
                             <!-- Indicators -->
                             <ul class="carousel-indicators">
@@ -85,17 +159,59 @@ if (isset($_GET["id"])) {
             <h2 class="StockItemNameViewSize StockItemName">
                 <?php print $StockItem['StockItemName']; ?>
             </h2>
+
             <div class="QuantityText"><?php print "voorraad: ". $StockItem['QuantityOnHand']; ?></div>
+
+                <?php if ($StockGroups = 1 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>       Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 2 && $StockItem['QuantityOnHand'] <= 10 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>         Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 3 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>         Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 4 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10> <i class='fas fa-exclamation-triangle'></i>          Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 5 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>         Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 6 && $StockItem['QuantityOnHand'] <= 1 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>         Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 7 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>        Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 8 && $StockItem['QuantityOnHand'] <= 8 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>   <i class='fas fa-exclamation-triangle'></i>        Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 9 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1) {
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>        Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                elseif ($StockGroups = 10 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1) {
+
+                    print("<h10>  <i class='fas fa-exclamation-triangle'></i>         Product is bijna uitverkocht. Laatste kans!! OP=OP <i class='fas fa-exclamation-triangle'></i> </h10>");
+                }
+                ?>
+
+
+
             <div id="StockItemHeaderLeft" class="Prijs">
+
                 <p class="StockItemPriceText" style="margin-top: 70px"><b><?php print sprintf("€ %.2f", $StockItem['SellPrice']); ?></b></p>
                 <?php
-                $puntenAantal = $StockItem['SellPrice'];
-                $puntenAantal = number_format($puntenAantal,0)
+                $puntenAantal = ($StockItem['SellPrice'] * 0.79) * 0.05;
+                $puntenAantal = number_format($puntenAantal,1)
 
                 ?>
-                <h5><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h5>
-                <h6> Inclusief BTW </h6>
+                <h6 style="margin-top: -10px"> Inclusief BTW </h6>
+                <h5 style="margin-top: 20px"><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h5>
 
+                <?php
+                if (isset($_SESSION['userData'])) {
+                $userData = $_SESSION['userData'];
+                ?>
 
                     <form method="post" >
                         <div class="favoriet">
@@ -105,30 +221,93 @@ if (isset($_GET["id"])) {
                         </div>
                     </form>
 
+                    <?php
+                    $description = $StockItem['SearchDetails'];
+                    $prijsPerStuk = $StockItem['SellPrice'];
+                    $emailadres = isset($userData['EmailAddress']) ? $userData['EmailAddress'] : '';
+
+                    if(isset($_POST['favoriet'])){
+                        addProductTofavorites($description,$stockItemID,$prijsPerStuk,$connection,$emailadres);
+                    }
+                }?>
+
                 <div class="winkelwagenBorder">
-                    <form method="post" action="">
+                    <form method="post" action="" style="display: flex;">
                         <input type="number" name="stockItemID" value="<?php print($stockItemID) ?>" hidden>
-                        <div class="button-container">
-                            <button type="submit" name="submit">
-                                <i class="fas fa-shopping-cart"></i>
-                            </button>
-                        </div>
+                        <?php
+                        if (($StockGroups == 1 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 2 && $StockItem['QuantityOnHand'] <= 10 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 3 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 4 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 5 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 6 && $StockItem['QuantityOnHand'] <= 1 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 7 && $StockItem['QuantityOnHand'] <= 2 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 8 && $StockItem['QuantityOnHand'] <= 8 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 9 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1)||
+                            ($StockGroups == 10 && $StockItem['QuantityOnHand'] <= 5 && $StockItem['QuantityOnHand'] >= 1)){
+                            ?>
+
                         <div class="toevoegenWinkelwagen">
-                            <input type="number" name="aantal" placeholder="aantal:         " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required>
+                            <input name="aantal" type="number" placeholder="koop nu !                " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required>
                         </div>
+
+                            <?php
+                            print '<div class="button-container2">';
+                            print '<button type="submit" name="submit">';
+                            print '<i class="fas fa-shopping-cart"></i>';
+                            print '</button>';
+                            print '</div>';
+
+                            ?>
+
+                        <?php
+                        } else {
+                            ?>
+
+                            <div class="toevoegenWinkelwagen">
+                                <input name="aantal" type="number" placeholder="aantal:                 " min="1" max="<?php print $StockItem['QuantityOnHand']; ?>" required>
+                            </div>
+
+                                <?php
+                        print '<div class="button-container">';
+                        print '<button type="submit" name="submit">';
+                        print '<i class="fas fa-shopping-cart"></i>';
+                        print '</button>';
+                        print '</div>';
+                        }
+                        ?>
+
+
                     </form>
                 </div>
 
+
                 <style>
-                    /*.winkelwagenBorder {*/
-                    /*    border: 1px solid white;*/
-                    /*    display: flex;*/
-                    /*    align-items: center;*/
-                    /*}*/
+                    .uitverkoop {
+
+                        color: #005cbf;
+                        width: 800px;
+                        border-radius: 30px;
+                        background-color: #FFFFFF;
+                        max-width: 90%;
+                    }
+                    .winkelwagenBorder {
+                        border: 1px solid transparent;
+                        display: flex;
+                        align-items: center;
+                        width: 150px;
+                        margin-top: -10px;
+                    }
 
                     .button-container {
                         flex: 0 0 auto;
-                        margin-top: 15px;
+                        margin-top: 11px;
+                        margin-left: 10px;
+                    }
+                    .button-container2 {
+                        flex: 0 0 auto;
+                        margin-top: 11px;
+                        margin-left: 10px;
                     }
 
                     button {
@@ -138,6 +317,7 @@ if (isset($_GET["id"])) {
                         padding: 10px;
                         font-size: 18px;
                         color: white;
+                        margin-bottom: 10px;
                     }
 
                     button:hover {
@@ -147,7 +327,6 @@ if (isset($_GET["id"])) {
                     .toevoegenWinkelwagen {
                         flex: 1;
                         margin-top: 10px;
-                        margin-left: 10px; /* Add a margin to separate the input from the button */
                     }
 
                     .toevoegenWinkelwagen input {
@@ -158,6 +337,17 @@ if (isset($_GET["id"])) {
                         color: white;
                         width: 100%;
                         text-align: right;
+                        margin-right: 10px;
+                    }
+                    .favoriet {
+                        margin-top: 10px;
+                    }
+                    .success-message {
+                        margin-top: 10px;
+                        background-color: transparent;
+                        color: white;
+                        padding: 10px;
+                        text-align: center;
                     }
                 </style>
 
@@ -175,13 +365,6 @@ if (isset($_GET["id"])) {
             $aantal = isset($_POST["aantal"]) ? intval($_POST["aantal"]) : 1;
             addProductToCart($stockItemID, $aantal);
         }
-
-//        if (isset($_POST['submit'])) {
-//            $stockItemID = $_POST["stockItemID"];
-//            $aantal = isset($_POST["aantal"]) ? intval($_POST["aantal"]) : 1;
-//            addProductToFavorit($stockItemID);
-//        }
-
         ?>
 
 
@@ -233,3 +416,14 @@ if (isset($_GET["id"])) {
         ?><h2 id="ProductNotFound">Het opgevraagde product is niet gevonden.</h2><?php
     } ?>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successMessage = document.getElementById("successMessage");
+        if (successMessage) {
+            setTimeout(function () {
+                successMessage.style.display = "none";
+            }, 2);
+        }
+    });
+</script>

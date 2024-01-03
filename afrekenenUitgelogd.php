@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         .grid-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
         }
 
         body {
@@ -47,8 +47,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
             border: 1px solid #FFFFFF;
             padding: 10px;
+            width: 51%;
+            border-radius: 20px;
+            margin: auto;
+        }
+        .titel2 {
+            text-align: center;
+            border: 1px solid #FFFFFF;
             width: 100%;
             border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .titel3 {
+            text-align: center;
+            border: 1px solid #FFFFFF;
+            width: 100%;
+            border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
         .productenTonen table {
@@ -67,10 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 10px;
             text-align: left;
             flex: 1;
-            width: 20%;
+            max-width: 20%;
             margin-right: 10px;
             margin-left: 10px;
-            padding: 10px;
+            padding: 15px;
         }
         .bestelling h1 {
             text-align: center;
@@ -96,9 +113,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 10px;
             text-align: left;
             flex: 3;
-            width: 80%;
+            max-width: 30%;
             margin-left: 10px;
-            padding: 10px;
+            padding: 15px;
+            width: 400px;
         }
 
         .gegevens h1 {
@@ -106,17 +124,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         button.fas.fa-id-card {
-            background-color: transparent;
+            background-color: rgba(105, 105, 105, 0.5);
             border: 1px solid #FFFFFF;
             border-radius: 10px;
             padding: 15px;
             font-size: 18px;
             color: #FFFFFF;
-            width: 100%;
+            max-width: 100%;
+            width: 600px;
+            margin-top: -40px;
+            align-items: center;
         }
 
         button.fas.fa-id-card:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
         .grid-container .fa-shopping-cart {
@@ -163,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 10px;
         }
         .fa-credit-card-alt {
-            background-color: transparent;
+            background-color: rgba(105, 105, 105, 0.5);
             border: 1px solid #FFFFFF;
             border-radius: 10px;
             padding: 15px;
@@ -174,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .fa-credit-card-alt:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.5);
         }
         .grid-container .fa-credit-card-alt {
             display:inline-block;
@@ -193,8 +214,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             display: flex;
             justify-content: center;
         }
-
-
+        .Naw input[type="text"] {
+            border-radius: 20px;
+            width: 100%;
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -234,14 +258,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $totaalPrijs += ($aantal * $afgerondePrijs);
 
-        $puntenAantal += ($aantal * $afgerondePrijs);
+        $puntenAantal += ($aantal * $afgerondePrijs) * 0.05;
     }
     $brutoTotaalprijs = $totaalPrijs * 0.79;
 
     $BTW = $totaalPrijs - $brutoTotaalprijs;
 
     //Rondt de totaalprijs af op 2 decimalen
-    $totaalPrijs = number_format($totaalPrijs, 2);
 
     $brutoTotaalprijs = number_format($brutoTotaalprijs,2);
 
@@ -251,65 +274,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <div class="gegevens">
-        <h1>NAW-Gegevens</h1>
+        <div class="titel2">
+            <h1>Klant-Gegevens</h1>
+        </div>
         <div id="boxNAW">
             <form id="NAW-Gegevens" method="post">
                 <div class='center'>
 
-<!--            In deze tabel worden klantgegevens opgeslagen-->
-<!--            De gegevens worden opgeslagen als er een post plaats vindt-->
-<!--            De bezoeker krijgt een pop-up als de gegevens zijn opgeslagen-->
-<!--            De klant kan zijn gegevens aanpassen indien nodig-->
-                <table class="Naw Table">
-                    <tr>
-                        <th><label for="FirstName">Voornaam</label></th>
-                        <td><input type="text" name="FirstName" id="FirstName" required></td>
+                    <!--            In deze tabel worden klantgegevens opgeslagen-->
+                    <!--            De gegevens worden opgeslagen als er een post plaats vindt-->
+                    <!--            De bezoeker krijgt een pop-up als de gegevens zijn opgeslagen-->
+                    <!--            De klant kan zijn gegevens aanpassen indien nodig-->
+                    <table class="Naw Table">
+                        <tr>
+                            <th><label for="FirstName">Volledige Naam</label></th>
+                            <td><input type="text" name="Fullname" id="Fullname" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Voer alleen letters in" required></td>
+                        </tr>
 
-                        <th><label for="Tussenvoegsel">Tussenvoegsel</label></th>
-                        <td><input type="text" name="Tussenvoegsel" id="Tussenvoegsel" ></td>
+                        <tr>
+                            <th><label for="Emailadres">E-mailadres</label></th>
+                            <td><input type="text" name="Email" id="Email" required></td>
+                        </tr>
 
-                        <th><label for="LastName">Achternaam</label></th>
-                        <td><input type="text" name="LastName" id="LastName" required></td>
-                    </tr>
+                        <tr>
+                            <th><label for="PhoneNumber">Telefoonnummer</label></th>
+                            <td><input type="text" name="PhoneNumber" id="PhoneNumber" pattern="[0-9]+" title="Voer alleen cijfers in" required></td>
+                        </tr>
 
-                    <tr>
-                        <th><label for="Emailadres">Emailadres</label></th>
-                        <td><input type="text" name="Email" id="Email" required></td>
+                        <tr>
+                            <th><label for="PostalAdressLine2">Stad</label></th>
+                            <td><input type="text" name="PostalAdressLine2" id="PostalAdressLine2" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Voer alleen letters in" required></td>
+                        </tr>
 
-                        <th><label for="PhoneNumber">Telefoonnummer</label></th>
-                        <td><input type="text" name="PhoneNumber" id="PhoneNumber" required></td>
-                    </tr>
+                        <tr>
+                            <th><label for="DeliveryAdressLine21">Adres</label></th>
+                            <td><input type="text" name="yu_DeliveryAdressLine2" id="DeliveryAdressLine21" required</td>
+                        </tr>
 
-                    <tr>
-                        <th><label for="PostalAdressLine2">Stad</label></th>
-                        <td><input type="text" name="PostalAdressLine2" id="PostalAdressLine2" required></td>
-
-                        <th><label for="DeliveryAdressLine21">Straatnaam</label></th>
-                        <td><input type="text" name="yu_DeliveryAdressLine2" id="DeliveryAdressLine21" required></td>
-
-                        <th><label for="DeliveryAdressLine22">Huisnummer</label></th>
-                        <td><input type="text" name="xu_DeliveryAdressLine2" id="DeliveryAdressLine22" required></td>
-
-
-                    </tr>
                         <th><label for="PostalPostalCode">Postcode</label></th>
                         <td><input type="text" name="PostalPostalCode" id="PostalPostalCode" required></td>
+                        </tr>
 
+                        <tr>
                         <th><label for="Country">Land</label></th>
-                        <td><input type="text" name="land" id="land" required></td>
+                        <td><input type="text" name="land" id="land" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Voer alleen letters in" required></td>
+                        </tr>
 
+                        <tr>
                         <th></th>
-
-                        <td>
-                            <form class="post">
-                                <button name="opslaan" type="submit" value="Submit" class="fas fa-id-card"> Opslaan</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-
-                </table>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <form class="post">
+                    <button name="opslaan" type="submit" value="Submit" class="fas fa-id-card"> Opslaan</button>
+                </form>
             </form>
         </div>
 
@@ -318,10 +337,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             //In deze variabele wordt de straatnaam opgeslagen
-            $DeliveryStreet = $_POST["yu_DeliveryAdressLine2"];
-
-            //In deze variabele wordt het huisnummer opgeslagen
-            $DeliveryNumber = $_POST["xu_DeliveryAdressLine2"];
+            $DeliveryAdressLine2 = $_POST["yu_DeliveryAdressLine2"];
 
             //In deze variabele wordt het postcode opgeslagen
             $PostalCode = $_POST["PostalPostalCode"];
@@ -330,13 +346,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $Country = $_POST["land"];
 
             //In deze variabele wordt de voornaam opgeslagen met hoofdletters
-            $FirstName = ucfirst($_POST["FirstName"]);
-
-            //In deze variabele wordt de achternaam opgeslagen met hoofdletters
-            $Lastname = ucfirst($_POST["LastName"]);
-
-            //In deze variabele wordt de achternaam opgeslagen met hoofdletters
-            $Tussenvoegsel = ucfirst($_POST["Tussenvoegsel"]);
+            $Fullname = ucfirst($_POST["FirstName"]);
 
             //In deze variabele wordt het telefoonnummer opgeslagen
             $PhoneNumber = $_POST["PhoneNumber"];
@@ -344,68 +354,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //In deze variabele wordt het Email-adrs opgeslagen
             $EmailAdress = $_POST["Email"];
 
-            //In deze variabele wordt de straatnaam en huisnummer samengevoegd als adres
-            $DeliveryAdressLine2 = $DeliveryStreet . ' ' . $DeliveryNumber;
-
-            //Als de bezoeker een tussenvoegsel invult zal deze worden toegevoegd bij de volledige naam
-            //Als de bezoeker geen tussenvoegsel invult zal de voor en achternaam samen de volledige naam worden
-            if ($Tussenvoegsel == "") {
-                $Fullname = ($FirstName . " " . $Lastname);
-            } elseif ($Tussenvoegsel != "") {
-                $Fullname = ($FirstName . " " . $Tussenvoegsel . " " . $Lastname);
-            }
-
             //In deze query wordt de Volledige naam, adres en Emailadres opgeslagen in de database
             addCustomer($Fullname, $DeliveryAdressLine2, $EmailAdress,$connection);
         }
-      ?>
+        ?>
     </div>
 
     <div class="bestelling">
+    <div class="titel3">
         <h1>Bestelling</h1>
-        <div class="totaalPrijs">
-            <h3>Totaalprijs:</h3>
-
-            <!--Hier wordt de prijs getoond van alles, Brutoproducten + Btw + verzendkosten-->
-            <h4>€<?php print($totaalPrijs) ?></h4>
-        </div>
+    </div>
         <hr>
 
         <!--Hier wordt de brutprijs getoond van alle artikelen-->
-       <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
-           <h6>Brutoprijs:</h6>
-           <h6 style="margin-left: auto;"><?php print("€". $brutoTotaalprijs)?></h6>
-       </div>
+        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+            <h6>Brutoprijs:</h6>
+            <h6 style="margin-left: auto;"><?php print("€". $brutoTotaalprijs)?></h6>
+        </div>
 
         <!--Hier wordt de btw prijs getoond van alle artikelen-->
-       <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
-           <h6>BTW:</h6>
-           <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
-       </div>
-
-        <!--Hier wordt de Verzondkosten van de bestelling getoond-->
-      <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
-          <h6>Verzendkosten:</h6>
-          <h6 style="margin-left: auto;"><?php print("€" . 0.00) ?></h6>
-      </div>
+        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+            <h6>BTW:</h6>
+            <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
+        </div>
 
         <?php
-        $puntenAantal = number_format($puntenAantal,0)
-
+        $puntenAantal = number_format($puntenAantal,0);
+        $totaalPrijs = number_format($totaalPrijs,2)
         ?>
         <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
             <h6>Punten:</h6>
             <h6 style="margin-left: auto"><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h6>
         </div>
 
+        <hr>
+        <div class="totaalPrijs">
+            <h3>Totaalprijs:</h3>
+
+            <!--Hier wordt de prijs getoond van alles, Brutoproducten + Btw + verzendkosten-->
+            <h4>€<?php print($totaalPrijs) ?></h4>
+        </div>
+
+        <hr>
+
         <!--Deze knop lijdt naar de betaalpagina-->
         <div class="betalen">
-            <form action="iDealdemopagina.php">
-                <button type="submit" name="afrekenen" class="fa fa-credit-card-alt" id="AfrekenenKnop"> Ideal</button>
+            <form action="iDealdemopaginaUitgelogd.php">
+                <button style="margin-top: 40px type="submit" name="afrekenen" class="fa fa-credit-card-alt" id="AfrekenenKnop"> Ideal</button>
             </form>
         </div>
 
+
+            <div class="knoppen">
+                <form action="registratie.php">
+                    <button>
+                        <i class="fa fa-user"> Inloggen</i>
+                    </button>
+                </form>
+            </div>
     </div>
+
+    <style>
+        .knoppen button {
+            border-radius: 10px;
+            background-color: rgba(105,105,105,0.5);
+            border: 1px SOLID #FFFFFF;
+            padding: 10px;
+            margin-top: 20px;
+            max-width: 100%;
+            width: 500px;
+            color: #FFFFFF;
+        }
+        .knoppen button:hover{
+            background-color: rgba(255,255,255,0.5);
+        }
+    </style>
 
 </body>
 </html>

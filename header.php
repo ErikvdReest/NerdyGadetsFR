@@ -30,7 +30,7 @@ $databaseConnection = connectToDatabase();
         <div class="col-2"><a href="./" id="LogoA">
                 <div id="Nerdygadgets Logo">
                 <img src="Public/Img/barcode%20logo.png"
-                     print'<img src="Public/Img/Nerdygadgets%20Logo.png" width="300" height="199" />
+                     print'<img src="Public/Img/Nerdygadgets%20Logo.png" width="300" height="199"/>
                 </div>
             </a></div>
         <div class="col-8" id="CategoriesBar">
@@ -59,8 +59,20 @@ $databaseConnection = connectToDatabase();
                 <a href="favorieten.php" class="HrefDecoration"><i class="fas fa-heart" ></i> | </a>
                 <a href="winkelmandje.php" class="HrefDecoration"><i class="fas fa-shopping-cart"></i> | </a>
                 <a href="browse.php" class="HrefDecoration"><i class="fas fa-search "></i> | </a>
-                <a href="registratie.php" class="HrefDecoration"><i class="fas fa-user"></i>  </a>
+
+            <?php
+            if (isset($_SESSION['userData'])) {
+                $userData = $_SESSION['userData'];
+                print (isset($userData['PreferredName']) ? $userData['PreferredName'] : ' '. "   ");
+                print " ";
+                print '<a href="profile.php" class="HrefDecoration"><i class="fas fa-user"></i></a>';
+            } else {
+                print '<a href="registratie.php" class="HrefDecoration"><i class="fas fa-user"></i></a>';
+            }
+            ?>
+
         </ul>
+
 
     </div>
     <div class="row" id="Content">

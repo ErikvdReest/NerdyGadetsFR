@@ -93,7 +93,7 @@ function verwijderen($cart){
 
 function toevoegen($cart){
 //Als er post plaatsvindt bij de plus knop neemt het aantal met 1 toe
-    if (isset($_POST["toevoegen"])) {
+    if (isset($_POST["toevoegen"])){
         $toevoegenItemID = $_POST["toevoegen"];
 
         if (array_key_exists($toevoegenItemID, $cart)) {

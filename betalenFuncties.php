@@ -3,7 +3,7 @@
 
 
 //In deze query worden de NAW-gegevens van klanten opgeslagen
-//De ingevulde indexen in afrekenen.php worden in variabele gestopt
+//De ingevulde indexen in afrekenenIngelogd.php worden in variabele gestopt
 //De overgebleven kolommen worden gevuld met standaardwaarden
 function addCustomer ($Fullname, $DeliveryAdressLine2, $EmailAdress, $connection){
     $query = "
@@ -126,10 +126,71 @@ function opvragenBestellinggegevens($connection){
 }
 function addPunten ($puntenAantal,$connection){
     $query = " 
-    INSERT INTO customers (punten)
-    VALUES ($puntenAantal)
-    ORDER BY CustomerID DESC
+    UPDATE customers
+    SET punten = punten + $puntenAantal
+    ORDER BY AccountID DESC
     LIMIT 1;
     ";
     mysqli_query($connection, $query);
+}
+
+
+function deletePunten($puntenGebruik, $emailadres)
+{
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+    try {
+        $connection = new mysqli("localhost", "root", "", "nerdygadgets");
+        $connection->set_charset('latin1');
+    } catch (mysqli_sql_exception $e) {
+        die("Connection failed: " . $e->getMessage());
+    }
+
+    $query = "UPDATE customers SET punten = punten - ? WHERE Emailadres = ?";
+
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param("is", $puntenGebruik, $emailadres);
+
+    $stmt->execute();
+
+    $stmt->close();
+    $connection->close();
+}
+
+//function maxPunten($connection,$fullName)
+//{
+//    $query = "
+//    SELECT punten
+//    FROM customers
+//    WHERE Fullname = $fullName
+//    ";
+//    $result = mysqli_query($connection, $query);
+//
+//    // Check if the query was successful
+//    if ($result) {
+//        // Fetch the result as an associative array
+//        return mysqli_fetch_assoc($result);
+//    } else {
+//        // Handle the error if the query fails
+//        return false;
+//    }
+//}
+
+function maxPunten($connection,$emailadres)
+{
+    $query = " 
+    SELECT punten
+    FROM customers
+    WHERE Emailadres = '$emailadres'
+    ";
+    $result = mysqli_query($connection, $query);
+
+    // Check if the query was successful
+    if ($result) {
+        // Fetch the result as an associative array
+        return mysqli_fetch_assoc($result);
+    } else {
+        // Handle the error if the query fails
+        return false;
+    }
 }

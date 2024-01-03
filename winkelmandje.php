@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . "/header.php";
 include "cartfuncties.php";
-
+include "betalenFuncties.php";
 if (isset($_GET["id"])) {
     $stockItemID = $_GET["id"];
 } else {
@@ -10,7 +10,7 @@ if (isset($_GET["id"])) {
 //Refreshed de pagina op het moment dat er een post plaats vindt
 //De pagina wordt direct gerefreshed als er post plaatsvindt.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    header("Refresh:0");
+    header("Refresh:01");
 }
 
 ?>
@@ -52,7 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 10px;
             text-align: left;
             flex: 1;
-            width: 50%;
             margin-right: 10px;
             padding: 15px;
             align-items: center;
@@ -120,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         }
         #AfrekenenKnop {
-            background-color: transparent;
+            background-color: rgba(105,105,105,0.5);
             border: 1px solid #FFFFFF;
             border-radius: 30px;
             padding: 15px;
@@ -129,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         #AfrekenenKnop:hover {
-            background-color: rgba(255, 165, 0, 1);
+            background-color: rgba(0, 0, 255, 1);
         }
         .transparent-button {
             background-color: transparent;
@@ -177,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: flex-end;
             align-items: center;
             margin-top: 10px;
-            width: 100%;
+            max-width: 100%;
         }
         .betalen form {
             display: flex;
@@ -187,18 +186,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 100%;
 
         }
-        .punten {
-            width: fit-content;
-            width: 100%;
-            margin-top: 5px;
-        }
-        .punten {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
         .punten button{
-            background-color: transparent;
+            background-color: rgba(105,105,105,0.5);
             border: 1px solid lightslategray;
             border-radius: 20px;
             padding: 15px;
@@ -210,113 +199,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .punten button:hover {
             background-color: rgba(255, 165, 0, 0.8);
         }
-        .toevoegenPunten input {
-            border: 1px solid lightslategray;
-            background-color: transparent;
-            border-radius: 20px;
-            padding: 10px;
-            color: white;
-            width: 100%;
-            text-align: right;
-        }
-        .puntenBorder {
-            border: 1px solid white;
-            border-radius: 20px;
-            margin-top: 20px;
-            padding: 10px;
-            width: 400px;
-        }
-        .rechts {
-            margin-right: 10px;
-            margin-bottom: 16px;
-        }
-        .puntenContainer {
-            display: none;
-        }
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-
-        }
         .toggle-container span {
             margin-left: 10px;
             font-size: 18px;
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 70px;
-            height: 34px;
+        .success-message {
+            color: white;
+            background-color: black;
+            padding: 10px;
+            text-align: center;
         }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-
-        input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round:before {
-            border-radius: 50%;
-        }
-
     </style>
 </head>
 <body>
-<h1>Winkelwagen</h1>
+<?php
+$cart = getCart();
+if (!empty($cart)) {
+    print "<h1>Winkelwagen</h1>";
+
+if (isset($_POST["verwijderen"])) {
+    print '<div class="success-message">U heeft een product verwijderd</div>';
+}
+if (isset($_POST["toevoegen"])) {
+    print '<div class="success-message">U heeft een product toegevoegd</div>';
+}
+if (isset($_POST["verminderen"])){
+    print '<div class="success-message">U heeft het aantal gewijzigd</div>';
+}
+?>
 
 <div class="grid-container">
     <div class="rand">
 
-
 <?php
-$cart = getCart();
 $connection = connectToDatabase();
 $totaalPrijs = 0;
 $aantalProducten = 0;
@@ -344,6 +260,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
             <?php
 
             if ($productDetails) {
+                $maxQuantity = $productDetails['QuantityOnHand'];
                 print("<div class='product'>");
                 print("<div class='product-info'>");
                 print("<h3>" . $productDetails['StockItemName'] . "</h3>");
@@ -362,10 +279,15 @@ foreach ($cart as $Artikelnummer => $aantal) {
                 print("<div class='aantal'>");
                 print("<form method='post' style='display: inline;'>");
                 print("Aantal: ");
-                print("<input type='text' name='aantal[$Artikelnummer]' value='$aantal'>");
-                print("<button hidden type='submit' name='update_aantal' value='$Artikelnummer' class='transparent-button'>Update</button>");
+                print("<input type='number' name='aantal[$Artikelnummer]' value='$aantal' max=$maxQuantity>");
+                print("<button hidden type='number' name='update_aantal' value='$Artikelnummer' class='transparent-button'>Update</button>");
                 print("<div class='aanpassen'>");
-                print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button-plus fas fa-plus'></button>");
+
+                if ($aantal == $maxQuantity) {
+                    print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button-plus fas fa-plus' disabled></button>");
+                } else {
+                    print("<button type='submit' name='toevoegen' value='$Artikelnummer' class='transparent-button-plus fas fa-plus'></button>");
+                }
                 print("<button type='submit' name='verminderen' value='$Artikelnummer' class='transparent-button-min fas fa-minus'></button>");
                 print("<button type='submit' name='verwijderen' value='$Artikelnummer' class='delete-button transparent'><i class='fas fa-trash'></i></button>");
                 print("</div>");
@@ -376,7 +298,7 @@ foreach ($cart as $Artikelnummer => $aantal) {
 
                 $totaalPrijs += ($aantal * $afgerondePrijs);
 
-                $puntenAantal += ($aantal * $afgerondePrijs);
+                $puntenAantal += (($aantal * $afgerondePrijs) * 0.79) * 0.05;
 
             }
             $aantalProducten += ($aantal);
@@ -406,10 +328,95 @@ $BTW = number_format($BTW, 2);
 update($cart);
 verminderen($cart);
 verwijderen($cart);
-toevoegen($cart);
-?>
+toevoegen($cart)
+?></div>
+
+    <?php
+    if (isset($_SESSION['userData'])) {
+        $userData = $_SESSION['userData'];
+        ?>
+
+
+        <div class="bestelling">
+            <h1>Bestelling</h1>
+            <div class="totaalPrijs">
+                <h3>Totaalprijs:</h3>
+                <h4>€<?php print($totaalPrijs) ?></h4>
+            </div>
+            <hr>
+
+
+            <!--Hier wordt de brutprijs getoond van alle artikelen-->
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>Brutoprijs:</h6>
+        <h6 style="margin-left: auto;"><?php print("€". $brutoTotaalprijs)?></h6>
     </div>
-<div class="bestelling">
+
+    <!--Hier wordt de btw prijs getoond van alle artikelen-->
+    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
+        <h6>BTW:</h6>
+        <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
+    </div>
+
+    <?php
+    $emailadres = isset($userData['EmailAddress']) ? $userData['EmailAddress'] : '';
+    $puntenAantal = number_format($puntenAantal,1);
+    $punten = maxPunten($connection,$emailadres);
+    function removeCommasFromNumber($number) {
+        return str_replace(',', '', $number);
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['puntenGebruiken'])) {
+    $puntenGebruik = $_POST['puntenGebruiken'];
+    ?>
+        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;" id="prijzenContainer">
+            <h6>Punten:</h6>
+            <h6 style="margin-left: auto" id="puntenAantal"><?php print( "-".$puntenGebruik)?> <i class="fas fa-solid fa-coins"></i></h6>
+        </div>
+    <?php }
+    else {?>
+
+        <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;" id="prijzenContainer">
+            <h6>Punten:</h6>
+            <h6 style="margin-left: auto" id="puntenAantal"><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h6>
+        </div>
+
+    <?php } ?>
+
+            <hr>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = document.getElementById("successMessage");
+            if (successMessage) {
+                setTimeout(function () {
+                    successMessage.style.display = "none";
+                }, 20000);
+            }
+        });
+    </script>
+
+
+
+    <div class="betalen">
+        <form action="afrekenenIngelogd.php" method="post">
+            <?php if ($aantalProducten > 0): ?>
+                <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
+            <?php else: ?>
+                <button type="button" id="AfrekenenKnop" disabled>Naar de kassa</button>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
+
+<?php
+    } else {
+        ?>
+        <div class="bestelling">
     <h1>Bestelling</h1>
     <div class="totaalPrijs">
         <h3>Totaalprijs:</h3>
@@ -430,78 +437,24 @@ toevoegen($cart);
         <h6 style="margin-left: auto;"><?php print("€". $BTW) ?></h6>
     </div>
 
-    <!--Hier wordt de Verzondkosten van de bestelling getoond-->
-    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
-        <h6>Verzendkosten:</h6>
-        <h6 style="margin-left: auto;"><?php print("€" . 0.00) ?></h6>
-    </div>
-
-    <?php
-    $puntenAantal = number_format($puntenAantal,0)
-
-    ?>
-
-    <!--    --><?php //
-    //    if ($ingelogd == TRUE){
-    //    ?>
-
-    <div class="Prijzen" style="display: flex; justify-content: space-between; text-align: left;">
-        <h6>Punten:</h6>
-        <h6 style="margin-left: auto"><?php print($puntenAantal)?> <i class="fas fa-solid fa-coins"></i></h6>
-    </div>
-
     <hr style="margin-bottom: 20px">
 
-    <div class="toggle-container">
-        <label class="switch">
-            <input type="checkbox" id="toggleSwitch">
-            <span class="slider round"></span>
-        </label>
-        <span>Punten gebruiken <i class="fas fa-solid fa-coins"></i></span>
-    </div>
 
-    <div class="puntenContainer" id="puntenContainer">
-        <div class="puntenBorder">
-            <div class="punten">
-                <div class="rechts">
-                    <form method="post">
-                        <div class="toevoegenPunten">
-                            <input type="number" name="aantal" placeholder="Gespaarde Punten:                          " min="1" max="<?php  ?>" required>
-                        </div>
-                        <div class="knopPunten">
-                            <button
-                                    type="submit" name="puntenGebruiken" class="fas fa-user" id="puntenKnop"> Inloggen
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <form method="post">
-                    <div class="toevoegenPunten">
-                        <input type="number" name="aantal" placeholder="aantal punten:         " min="1" max="<?php  ?>" required>
-                    </div>
-                    <div class="knopPunten">
-                        <button
-                                type="submit" name="puntenGebruiken" class="fas fa-coins" id="puntenKnop"> Punten gebruiken
-                        </button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
 
     <script>
-        document.getElementById("toggleSwitch").addEventListener("change", function () {
-            var puntenContainer = document.getElementById("puntenContainer");
-            puntenContainer.style.display = this.checked ? "block" : "none";
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = document.getElementById("successMessage");
+            if (successMessage) {
+                setTimeout(function () {
+                    successMessage.style.display = "none";
+                }, 20000);
+            }
         });
     </script>
 
-<!--    --><?php //} ?>
 
     <div class="betalen">
-        <form action="afrekenen.php" method="post">
+        <form action="afrekenenUitgelogd.php" method="post">
             <?php if ($aantalProducten > 0): ?>
                 <button type="submit" id="AfrekenenKnop">Naar de kassa</button>
             <?php else: ?>
@@ -509,8 +462,10 @@ toevoegen($cart);
             <?php endif; ?>
         </form>
     </div>
-</div>
-</div>
 
-</body>
-</html>
+<?php
+    }
+} else {
+print "<h1>Winkelwagen is leeg</h1>";
+}
+?>
